@@ -1,0 +1,115 @@
+.container {
+  padding-block-end: 2rem;
+}
+
+.form-search {
+  background: #f6f6f6;
+  padding: 0.5rem;
+  border: solid 1px #adacac;
+}
+
+.img-logo {
+  width: 163px;
+  height: 66px;
+}
+
+.keyhole-logo {
+  height: 66px;
+  padding-bottom: 0.5rem;
+}
+
+.nav-logo {
+  height: 2rem;
+  padding: 1rem;
+  color: #000000;
+}
+
+.table {
+  border: 1px solid #dee2e6;
+}
+
+.bg-light {
+  --bs-bg-opacity: 0;
+}
+
+.table-font {
+  font-weight: 500;
+}
+
+.nøkkelhullet-food-result-container {
+  background: #daecd8;
+  padding: 1rem;
+}
+
+.nøkkelhullet-food-negResult-container {
+  background: #f3b7b7;
+  padding: 1rem;
+}
+
+.ernæringspåstander-food-result-container {
+  background: #f2f0b5;
+  padding: 1rem;
+}
+
+.ernæringspåstander-food-negResult-container {
+  background: #f2f0b5;
+  padding: 1rem;
+}
+
+.helsepåstander-food-result-container {
+  background: #f2f0b5;
+  padding: 1rem;
+}
+
+.helsepåstander-food-negResult-container {
+  background: #f2f0b5;
+  padding: 1rem;
+}
+
+.button-div {
+  text-align: center;
+}
+
+.button-front-search {
+  padding-top: 1.2rem;
+}
+
+.button-search {
+  background-color: #00205b;
+  border-block-color: #00205b;
+  float: right;
+}
+
+.button-view {
+  border: solid 1px #c1c1c1;
+}
+
+.alert-box {
+  border: 2px solid red;
+}
+
+.info-div {
+  background: #ffffff;
+  border: 1px solid;
+  padding: unset;
+  float: right;
+  padding-top: 1rem;
+}
+
+.info-button {
+  cursor: pointer;
+}
+
+.x-button {
+  float: right;
+  cursor: pointer;
+}
+
+.alert-icon {
+  color: red;
+  cursor: help;
+}
+
+.icon {
+  display: inline-block;
+}
