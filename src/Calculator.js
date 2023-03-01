@@ -29,6 +29,13 @@ import Melk14a from "./Melk14a";
 import Melk14b from "./Melk14b";
 import Melk15a from "./Melk15a";
 import Melk15b from "./Melk15b";
+import Kategori16 from "./Kategori16";
+import Kategori17 from "./Kategori17";
+import Kategori18 from "./Kategori18";
+import Kategori19 from "./Kategori19";
+import Kategori20 from "./Kategori20";
+import Kategori21 from "./Kategori21";
+
 // This code defines the options for four selectors, one for food groups and one for food categories within those groups and one for the sub foodcategories within those categories and the same logic for the last selector.
 
 const Calculator = () => {
@@ -781,6 +788,29 @@ const Calculator = () => {
           {/* Display component for melk 15b if group is selected as melk kategori and product is melk 15b */}
           {selectsGroup === "melk kategori" &&
             selectsProduct === "melk 15b" && <Melk15b />}
+
+          {/* Repeat the above conditional rendering code that renders a different component based on the user's selection of product category, group, and subcategory.  */}
+          {selectsGroup === "ost og vegetabilske alternativer" &&
+            selectsProduct === "" && <Kategori0 />}
+          {selectsGroup === "ost og vegetabilske alternativer" &&
+            selectsProduct === "kategori 16" && <Kategori16 />}
+          {selectsGroup === "ost og vegetabilske alternativer" &&
+            selectsProduct === "kategori 17" && <Kategori17 />}
+          {selectsGroup === "ost og vegetabilske alternativer" &&
+            selectsProduct === "kategori 18" && <Kategori18 />}
+
+          {selectsGroup === "matfett og oljer" && selectsProduct === "" && (
+            <Kategori0 />
+          )}
+          {selectsGroup === "matfett og oljer" &&
+            selectsProduct === "kategori 19" && <Kategori19 />}
+          {selectsGroup === "matfett og oljer" &&
+            selectsProduct === "kategori 20" && <Kategori20 />}
+
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "" && <Kategori0 />}
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "kategori 21" && <Kategori21 />}
         </div>
       </div>
     </div>
