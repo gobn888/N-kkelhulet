@@ -35,6 +35,29 @@ import Kategori18 from "./Kategori18";
 import Kategori19 from "./Kategori19";
 import Kategori20 from "./Kategori20";
 import Kategori21 from "./Kategori21";
+import Kategori22a from "./Kategori22a";
+import Kategori22b from "./Kategori22b";
+import Kategori22c from "./Kategori22c";
+import Kategori22d from "./Kategori22d";
+import Kategori23 from "./Kategori23";
+import Kategori24a1 from "./Kategori24a1";
+import Kategori24a2 from "./Kategori24a2";
+import Kategori24b1 from "./Kategori24b1";
+import Kategori24b2 from "./Kategori24b2";
+import Kategori24b3 from "./Kategori24b3";
+import Kategori24b4 from "./Kategori24b4";
+import Kategori24c1 from "./Kategori24c1";
+import Kategori24c2 from "./Kategori24c2";
+
+import Kategori25a from "./Kategori25a";
+import Kategori25b from "./Kategori25b";
+import Kategori26 from "./Kategori26";
+import Kategori27 from "./Kategori27";
+import Kategori28 from "./Kategori28";
+import Kategori29 from "./Kategori29";
+import Kategori30 from "./Kategori30";
+import Kategori31 from "./Kategori31";
+import Kategori32 from "./Kategori32";
 
 // This code defines the options for four selectors, one for food groups and one for food categories within those groups and one for the sub foodcategories within those categories and the same logic for the last selector.
 
@@ -811,6 +834,110 @@ const Calculator = () => {
             selectsProduct === "" && <Kategori0 />}
           {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
             selectsProduct === "kategori 21" && <Kategori21 />}
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "kategori 22" &&
+            selectsFragment === "" && <Kategori0 />}
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "kategori 22" &&
+            selectsFragment === "kategori 22 a" && <Kategori22a />}
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "kategori 22" &&
+            selectsFragment === "kategori 22 b" && <Kategori22b />}
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "kategori 22" &&
+            selectsFragment === "kategori 22 c" && <Kategori22c />}
+          {selectsGroup === "fiskerivarer og produkter av fiskerivarer" &&
+            selectsProduct === "kategori 22" &&
+            selectsFragment === "kategori 22 d" && <Kategori22d />}
+
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "" && <Kategori0 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 23" && <Kategori23 />}
+
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "" && <Kategori0 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 a" &&
+            selectsRation === "" && <Kategori0 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 a" &&
+            selectsRation === "kategori 24 a 1" && <Kategori24a1 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 a" &&
+            selectsRation === "kategori 24 a 2" && <Kategori24a2 />}
+
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 b" &&
+            selectsRation === "" && <Kategori0 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 b" &&
+            selectsRation === "kategori 24 b 1" && <Kategori24b1 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 b" &&
+            selectsRation === "kategori 24 b 2" && <Kategori24b2 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 b" &&
+            selectsRation === "kategori 24 b 3" && <Kategori24b3 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 b" &&
+            selectsRation === "kategori 24 b 4" && <Kategori24b4 />}
+
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 c" &&
+            selectsRation === "" && <Kategori0 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 c" &&
+            selectsRation === "kategori 24 c 1" && <Kategori24c1 />}
+          {selectsGroup === "kjøtt og produkter som inneholder kjøtt" &&
+            selectsProduct === "kategori 24" &&
+            selectsFragment === "kategori 24 c" &&
+            selectsRation === "kategori 24 c 2" && <Kategori24c2 />}
+
+          {selectsGroup === "helt eller delvis vegetabilske produkter" &&
+            selectsProduct === "" && <Kategori0 />}
+          {selectsGroup === "helt eller delvis vegetabilske produkter" &&
+            selectsProduct === "kategori 25" &&
+            selectsFragment === "" && <Kategori0 />}
+          {selectsGroup === "helt eller delvis vegetabilske produkter" &&
+            selectsProduct === "kategori 25" &&
+            selectsFragment === "kategori 25 a" && <Kategori25a />}
+          {selectsGroup === "helt eller delvis vegetabilske produkter" &&
+            selectsProduct === "kategori 25" &&
+            selectsFragment === "kategori 25 b" && <Kategori25b />}
+
+          {selectsGroup === "ferdigretter" && selectsProduct === "" && (
+            <Kategori0 />
+          )}
+          {selectsGroup === "ferdigretter" &&
+            selectsProduct === "kategori 26" && <Kategori26 />}
+          {selectsGroup === "ferdigretter" &&
+            selectsProduct === "kategori 27" && <Kategori27 />}
+          {selectsGroup === "ferdigretter" &&
+            selectsProduct === "kategori 28" && <Kategori28 />}
+          {selectsGroup === "ferdigretter" &&
+            selectsProduct === "kategori 29" && <Kategori29 />}
+          {selectsGroup === "ferdigretter" &&
+            selectsProduct === "kategori 30" && <Kategori30 />}
+
+          {selectsGroup === "dressinger og sauser" && selectsProduct === "" && (
+            <Kategori0 />
+          )}
+          {selectsGroup === "dressinger og sauser" &&
+            selectsProduct === "kategori 31" && <Kategori31 />}
+          {selectsGroup === "dressinger og sauser" &&
+            selectsProduct === "kategori 32" && <Kategori32 />}
         </div>
       </div>
     </div>
