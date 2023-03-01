@@ -19,7 +19,16 @@ import Kategori8a from "./Kategori8a";
 import Kategori8b from "./Kategori8b";
 import Kategori9 from "./Kategori9";
 import Kategori10 from "./Kategori10";
-
+import Melk11a from "./Melk11a";
+import Melk11b from "./Melk11b";
+import Melk12a from "./Melk12a";
+import Melk12b from "./Melk12b";
+import Melk13a from "./Melk13a";
+import Melk13b from "./Melk13b";
+import Melk14a from "./Melk14a";
+import Melk14b from "./Melk14b";
+import Melk15a from "./Melk15a";
+import Melk15b from "./Melk15b";
 // This code defines the options for four selectors, one for food groups and one for food categories within those groups and one for the sub foodcategories within those categories and the same logic for the last selector.
 
 const Calculator = () => {
@@ -737,6 +746,41 @@ const Calculator = () => {
           {/* Display component for kategori 10 if group is selected as grøt, brød og pasta and product is kategori 10 */}
           {selectsGroup === "grøt, brød og pasta" &&
             selectsProduct === "kategori 10" && <Kategori10 />}
+
+          {/* Display default component if group is selected as melk kategori but no product is selected */}
+          {selectsGroup === "melk kategori" && selectsProduct === "" && (
+            <Kategori0 />
+          )}
+          {/* Display component for melk 11a if group is selected as melk kategori and product is melk 11a */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 11a" && <Melk11a />}
+          {/* Display component for melk 11b if group is selected as melk kategori and product is melk 11b */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 11b" && <Melk11b />}
+          {/* Display component for melk 12a if group is selected as melk kategori and product is melk 12a */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 12a" && <Melk12a />}
+          {/* Display component for melk 12b if group is selected as melk kategori and product is melk 12b */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 12b" && <Melk12b />}
+          {/* Display component for melk 13a if group is selected as melk kategori and product is melk 13a */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 13a" && <Melk13a />}
+          {/* Display component for melk 13b if group is selected as melk kategori and product is melk 13b */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 13b" && <Melk13b />}
+          {/* Display component for melk 14a if group is selected as melk kategori and product is melk 14a */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 14a" && <Melk14a />}
+          {/* Display component for melk 14b if group is selected as melk kategori and product is melk 14b */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 14b" && <Melk14b />}
+          {/* Display component for melk 15a if group is selected as melk kategori and product is melk 15a */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 15a" && <Melk15a />}
+          {/* Display component for melk 15b if group is selected as melk kategori and product is melk 15b */}
+          {selectsGroup === "melk kategori" &&
+            selectsProduct === "melk 15b" && <Melk15b />}
         </div>
       </div>
     </div>
