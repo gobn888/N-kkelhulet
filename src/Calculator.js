@@ -11,6 +11,14 @@ import Kategori0 from "./Kategori0";
 import Kategori1 from "./Kategori1";
 import Kategori2 from "./Kategori2";
 import Kategori3 from "./Kategori3";
+import Kategori4 from "./Kategori4";
+import Kategori5 from "./Kategori5";
+import Kategori6 from "./Kategori6";
+import Kategori7 from "./Kategori7";
+import Kategori8a from "./Kategori8a";
+import Kategori8b from "./Kategori8b";
+import Kategori9 from "./Kategori9";
+import Kategori10 from "./Kategori10";
 
 // This code defines the options for four selectors, one for food groups and one for food categories within those groups and one for the sub foodcategories within those categories and the same logic for the last selector.
 
@@ -700,6 +708,35 @@ const Calculator = () => {
           {selectsGroup === "mel, gryn og ris" && selectsProduct === "" && (
             <Kategori0 />
           )}
+          {/* Display component for Kategori4 if group is selected as mel, gryn og ris and Kategori4 is selected as product */}
+          {selectsGroup === "mel, gryn og ris" &&
+            selectsProduct === "kategori 4" && <Kategori4 />}
+          {/* Display component for Kategori5 if group is selected as mel, gryn og ris and Kategori5 is selected as product */}
+          {selectsGroup === "mel, gryn og ris" &&
+            selectsProduct === "kategori 5" && <Kategori5 />}
+          {/* Display component for Kategori6 if group is selected as mel, gryn og ris and Kategori6 is selected as product */}
+          {selectsGroup === "mel, gryn og ris" &&
+            selectsProduct === "kategori 6" && <Kategori6 />}
+
+          {/* Display default component if group is selected as grøt, brød og pasta but no product is selected */}
+          {selectsGroup === "grøt, brød og pasta" && selectsProduct === "" && (
+            <Kategori0 />
+          )}
+          {/* Display component for kategori 7 if group is selected as grøt, brød og pasta and product is kategori 7 */}
+          {selectsGroup === "grøt, brød og pasta" &&
+            selectsProduct === "kategori 7" && <Kategori7 />}
+          {/* Display component for kategori 8a if group is selected as grøt, brød og pasta and product is kategori 8a */}
+          {selectsGroup === "grøt, brød og pasta" &&
+            selectsProduct === "kategori 8a" && <Kategori8a />}
+          {/* Display component for kategori 8b if group is selected as grøt, brød og pasta and product is kategori 8b */}
+          {selectsGroup === "grøt, brød og pasta" &&
+            selectsProduct === "kategori 8b" && <Kategori8b />}
+          {/* Display component for kategori 9 if group is selected as grøt, brød og pasta and product is kategori 9 */}
+          {selectsGroup === "grøt, brød og pasta" &&
+            selectsProduct === "kategori 9" && <Kategori9 />}
+          {/* Display component for kategori 10 if group is selected as grøt, brød og pasta and product is kategori 10 */}
+          {selectsGroup === "grøt, brød og pasta" &&
+            selectsProduct === "kategori 10" && <Kategori10 />}
         </div>
       </div>
     </div>
