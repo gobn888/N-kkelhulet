@@ -14,17 +14,18 @@ const Kategori0 = () => {
   const [showResults, setShowResults] = useState(""); // initialize state variable for showing results.
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
+  // define functions to handle clicks on info tooltip
   const [info, setInfo] = useState(""); // initialize state variable for showing info message.
-
-  // define functions to show/hide info message.
+  // Handler for showing info tooltip
   const onClickInfo = () => {
     setInfo(true);
   };
+  // Handler for closing info tooltip
   const onClickClose = () => {
     setInfo(false);
   };
 
-  // initialize state variables for showing/hiding input validation errors
+  // initialize State variables for handling input fields and validation errors
   const [energikj, setEnergikj] = useState(false);
   const [energikcal, setEnergikcal] = useState(false);
   const [fett, setFett] = useState(false);
@@ -35,7 +36,7 @@ const Kategori0 = () => {
   const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
 
-  // initialize state variable for input values
+  // State variable for storing nutrition information entered by user/input values
   const [nutrition, setNutrition] = useState({
     energikj: "",
     energikcal: "",
@@ -48,7 +49,7 @@ const Kategori0 = () => {
     salt: "",
   });
 
-  // define function to update input values in state variable
+  // Handler for updating nutrition state/state variable based on input field changes/input values
   const changeHandle = (event) => {
     console.log("changeHandle ===", event.target);
     setNutrition({
@@ -59,6 +60,7 @@ const Kategori0 = () => {
 
   // define function to handle form submission
   const onClick = () => {
+    // Check if all required fields are filled out and within valid ranges
     if (
       nutrition.energikj !== "" &&
       nutrition.energikcal !== "" &&
@@ -70,10 +72,12 @@ const Kategori0 = () => {
       nutrition.protein !== "" &&
       nutrition.salt !== ""
     ) {
+      // Sets the state to show the nutrition results
       setShowResults(true);
+      // Hides the empty result message
       setShowEmptyResult(false);
 
-      // reset input validation errors
+      // reset all nutrition input validation errors
       setEnergikj(false);
       setEnergikcal(false);
       setFett(false);
@@ -84,6 +88,7 @@ const Kategori0 = () => {
       setProtein(false);
       setSalt(false);
     } else {
+      // If the user has not selected any nutrients, set errors accordingly
       // Check each nutrition value to see if it is missing or negative
       // show input validation errors if any input is missing or negative.
       if (nutrition.energikj === "" || nutrition.energikj < 0) {
@@ -176,12 +181,12 @@ const Kategori0 = () => {
     },
   ];
 
-  // set initial state for the select dropdown.
+  // Declare a state variable for the select dropdown.
   const [selectsPart, setSelectPart] = useState("");
 
   console.log("selectsPart:", selectsPart);
 
-  // handler function for when the select dropdown value changes.
+  // A function to handle changes to the select dropdown energy unit
   const handlerPart = (event) => {
     console.log("handlerPart ===", event, nutrition);
     setSelectPart(event.value);
@@ -247,7 +252,7 @@ const Kategori0 = () => {
                     </div>
                   </div>
                 </th>
-                {/* This column allows the user to input the energy value */}
+                {/* This column allows the user to input the energy value in the input field */}
                 <td>
                   <input
                     type="number"
@@ -259,6 +264,8 @@ const Kategori0 = () => {
                   ></input>
                 </td>
               </tr>
+
+              {/* Additional rows for other nutrient selections */}
 
               {/* This row shows the fat content */}
               <tr className={fett ? "alert-box" : null}>
@@ -502,7 +509,7 @@ const Kategori0 = () => {
         </div>
 
         <div className="col-12 button-div">
-          {/* A submit button that triggers the onClick function when clicked */}
+          {/* Button that submits the form and calls the onClick function when clicked */}
           <button
             type="submit"
             className="btn btn-primary btn-lg button-search"

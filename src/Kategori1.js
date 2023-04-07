@@ -11,12 +11,12 @@ import Select from "react-select";
 
 // This component is called Kategori1
 const Kategori1 = () => {
-  // State variables for showing/hiding results and empty result message
-  const [showResults, setShowResults] = useState("");
-  const [showEmptyResult, setShowEmptyResult] = useState("");
+  // State variables for showing results and empty result message
+  const [showResults, setShowResults] = useState(""); // initialize state variable for showing results.
+  const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
   // Define functions to handle clicks on info tooltip
-  const [info, setInfo] = useState("");
+  const [info, setInfo] = useState(""); // initialize state variable for showing info message.
   // Handler for showing info tooltip
   const onClickInfo = () => {
     setInfo(true);
@@ -26,36 +26,36 @@ const Kategori1 = () => {
     setInfo(false);
   };
 
-  // State variables for handling input fields and validation errors
+  // initialize State variables for handling input fields and validation errors
   const [energikj, setEnergikj] = useState(false);
   const [energikcal, setEnergikcal] = useState(false);
 
-  const [mettede, setMettede] = useState(false);
-  const [mettedeNull, setMettedeNull] = useState(false);
   const [fett, setFett] = useState(false);
   const [fettNull, setFettNull] = useState(false);
-  const [protein, setProtein] = useState(false);
+  const [mettede, setMettede] = useState(false);
+  const [mettedeNull, setMettedeNull] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
   const [karbohydratNull, setKarbohydratNull] = useState(false);
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
+  const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
   const [saltNull, setSaltNull] = useState(false);
 
-  // State variable for storing nutrition information entered by user
+  // initialize State variable for storing nutrition information entered by user/input values
   const [nutrition, setNutrition] = useState({
     energikj: "",
     energikcal: "",
-    mettede: "",
     fett: "",
-    protein: "",
+    mettede: "",
     karbohydrat: "",
     hvoravSukkerarter: "",
     kostfiber: "",
+    protein: "",
     salt: "",
   });
 
-  // Handler for updating nutrition state based on input field changes
+  // Handler for updating nutrition state/state variable based on input field changes/input values
   const changeHandle = (event) => {
     console.log("changeHandle ===", event.target, event.target.value);
     setNutrition({
@@ -64,20 +64,20 @@ const Kategori1 = () => {
     });
   };
 
-  // Handler for submitting the form
+  // define function to handle form submission
   const onClick = () => {
     console.log("onclick ===", selectsPart, nutrition);
     // Check if all required fields are filled out and within valid ranges
     if (
-      nutrition.mettede !== "" &&
-      nutrition.mettede <= 0.6 &&
       nutrition.fett !== "" &&
       nutrition.fett <= 3 &&
-      nutrition.protein !== "" &&
+      nutrition.mettede !== "" &&
+      nutrition.mettede <= 0.6 &&
       nutrition.karbohydrat !== "" &&
       nutrition.karbohydrat <= 1 &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.kostfiber !== "" &&
+      nutrition.protein !== "" &&
       nutrition.salt !== "" &&
       nutrition.salt <= 0.5
     ) {
@@ -96,15 +96,16 @@ const Kategori1 = () => {
         setEnergikcal(false);
       }
       // reset all nutrition input validation errors
-      setMettede(false);
-      setMettedeNull(false);
+
       setFett(false);
       setFettNull(false);
-      setProtein(false);
+      setMettede(false);
+      setMettedeNull(false);
       setKarbohydrat(false);
       setKarbohydratNull(false);
       setHvoravSukkerarter(false);
       setKostfiber(false);
+      setProtein(false);
       setSalt(false);
       setSaltNull(false);
 
@@ -136,20 +137,7 @@ const Kategori1 = () => {
         }
       }
 
-      if (nutrition.mettede === "" || nutrition.mettede < 0) {
-        setMettedeNull(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setMettedeNull(false);
-      }
-      if (nutrition.mettede > 0.6) {
-        setMettede(true);
-        setShowResults(false);
-      } else {
-        setMettede(false);
-      }
-
+      // repeat for each nutrition value...
       if (nutrition.fett === "" || nutrition.fett < 0) {
         setFettNull(true);
         setShowResults(false);
@@ -164,12 +152,18 @@ const Kategori1 = () => {
         setFett(false);
       }
 
-      if (nutrition.protein === "" || nutrition.protein < 0) {
-        setProtein(true);
+      if (nutrition.mettede === "" || nutrition.mettede < 0) {
+        setMettedeNull(true);
         setShowResults(false);
         setShowEmptyResult(true);
       } else {
-        setProtein(false);
+        setMettedeNull(false);
+      }
+      if (nutrition.mettede > 0.6) {
+        setMettede(true);
+        setShowResults(false);
+      } else {
+        setMettede(false);
       }
 
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
@@ -205,6 +199,14 @@ const Kategori1 = () => {
         setKostfiber(false);
       }
 
+      if (nutrition.protein === "" || nutrition.protein < 0) {
+        setProtein(true);
+        setShowResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setProtein(false);
+      }
+
       if (nutrition.salt === "" || nutrition.salt < 0) {
         setSaltNull(true);
         setShowResults(false);
@@ -236,7 +238,7 @@ const Kategori1 = () => {
   // Declare a state variable for the select dropdown.
   const [selectsPart, setSelectPart] = useState("");
 
-  // A function to handle changes to the selected energy unit
+  // A function to handle changes to the select dropdown energy unit
   const handlerPart = (event) => {
     const inputVal = document.getElementsByName(event.value);
     console.log("handlerPart ===", event, nutrition, inputVal);
@@ -267,10 +269,10 @@ const Kategori1 = () => {
 
             {/* The table body */}
             <tbody>
-              {/* A row for selecting the energy unit */}
+              {/* This row shows the energy content */}
               <tr className={(energikj, energikcal ? "alert-box" : null)}>
                 <th scope="row" className="table-font">
-                  {/* An icon with a tooltip to indicate missing values in energy parameters */}
+                  {/* If either the energy (kJ) or energy (kcal) value is missing, an exclamation icon is displayed */}
                   {energikj && energikcal ? (
                     <Tooltip
                       title="Mangler verdi i energi (kJ/Kcal) parameter"
@@ -292,7 +294,7 @@ const Kategori1 = () => {
                         Energi
                       </label>
                     </div>
-                    {/* A dropdown menu for selecting the energy unit */}
+                    {/* This dropdown allows the user to select the unit for energy */}
                     <div className="col-md-6">
                       <Select
                         placeholder={<div>Velg enhet</div>}
@@ -303,7 +305,7 @@ const Kategori1 = () => {
                     </div>
                   </div>
                 </th>
-                {/* An input field for entering the energy value */}
+                {/* This column allows the user to input the energy value in input field*/}
                 <td>
                   <input
                     type="number"
@@ -317,55 +319,7 @@ const Kategori1 = () => {
               </tr>
 
               {/* Additional rows for other nutrient selections */}
-              <tr
-                className={
-                  mettede
-                    ? "alert-box"
-                    : null || mettedeNull
-                    ? "alert-box"
-                    : null
-                }
-              >
-                <th scope="row" className="table-font">
-                  {mettede ? (
-                    <Tooltip
-                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden mettede fettsyrer. Mengden på mettede fettsyrer må være lavere enn eller lik 0.6 / 100 g for å møte kravene for Nøkkelhullsmerking."
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
-                      </div>
-                    </Tooltip>
-                  ) : null}
-                  {mettedeNull ? (
-                    <Tooltip
-                      title="Mangler verdi i mettede fettsyrer parameter"
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon
-                          className="alert-icon"
-                          icon={faCircleExclamation}
-                        />
-                      </div>
-                    </Tooltip>
-                  ) : null}{" "}
-                  Mettede fettsyrer (g)
-                </th>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    name="mettede"
-                    value={nutrition.mettede}
-                    onChange={changeHandle}
-                    className="form-control"
-                  ></input>
-                </td>
-              </tr>
+              {/* This row shows the fat content */}
 
               <tr
                 className={
@@ -413,11 +367,31 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
-              <tr className={protein ? "alert-box" : null}>
+              {/* This row shows the saturated fat content */}
+              <tr
+                className={
+                  mettede
+                    ? "alert-box"
+                    : null || mettedeNull
+                    ? "alert-box"
+                    : null
+                }
+              >
                 <th scope="row" className="table-font">
-                  {protein ? (
+                  {mettede ? (
                     <Tooltip
-                      title="Mangler verdi i protein parameter"
+                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden mettede fettsyrer. Mengden på mettede fettsyrer må være lavere enn eller lik 0.6 / 100 g for å møte kravene for Nøkkelhullsmerking."
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
+                      </div>
+                    </Tooltip>
+                  ) : null}
+                  {mettedeNull ? (
+                    <Tooltip
+                      title="Mangler verdi i mettede fettsyrer parameter"
                       placement="right"
                       arrow
                     >
@@ -429,21 +403,23 @@ const Kategori1 = () => {
                       </div>
                     </Tooltip>
                   ) : null}{" "}
-                  Protein (g)
+                  Mettede fettsyrer (g)
                 </th>
+                {/* This column allows the user to input the saturated fat value */}
                 <td>
                   <input
                     type="number"
                     min="0"
                     step="any"
-                    name="protein"
-                    value={nutrition.protein}
+                    name="mettede"
+                    value={nutrition.mettede}
                     onChange={changeHandle}
                     className="form-control"
                   ></input>
                 </td>
               </tr>
 
+              {/* This row shows the carbohydrate content */}
               <tr
                 className={
                   karbohydrat
@@ -454,6 +430,7 @@ const Kategori1 = () => {
                 }
               >
                 <th scope="row" className="table-font">
+                  {/* If the carbohydrate value is missing, an exclamation icon is displayed */}
                   {karbohydrat ? (
                     <Tooltip
                       title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden sukkerarter. Mengden på sukkerarter må være lavere enn eller lik 1 g / 100 g for å møte kravene for Nøkkelhullsmerking."
@@ -481,6 +458,7 @@ const Kategori1 = () => {
                   ) : null}{" "}
                   Karbohydrat (g)
                 </th>
+                {/* This column allows the user to input the carbohydrate value */}
                 <td>
                   <input
                     type="number"
@@ -494,8 +472,10 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
+              {/* This is a table row for hvorav sukkerarter field */}
               <tr className={hvoravSukkerarter ? "alert-box" : null}>
                 <th scope="row" className="table-font">
+                  {/* If hvoravSukkerarter is missing, show a exclamation icon */}
                   {hvoravSukkerarter ? (
                     <Tooltip
                       title="Mangler verdi i hvorav sukkerarter parameter"
@@ -513,6 +493,7 @@ const Kategori1 = () => {
                   • Hvorav tilsatte sukkerarter (g)
                 </th>
                 <td>
+                  {/* Input field for hvoravSukkerarter */}
                   <input
                     type="number"
                     min="0"
@@ -525,8 +506,10 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
+              {/* This is a table row for kostfiber field */}
               <tr className={kostfiber ? "alert-box" : null}>
                 <th scope="row" className="table-font">
+                  {/* If kostfiber is missing, show a exclamation icon */}
                   {kostfiber ? (
                     <Tooltip
                       title="Mangler verdi i kostfiber parameter"
@@ -544,6 +527,7 @@ const Kategori1 = () => {
                   • Kostfiber (g)
                 </th>
                 <td>
+                  {/* Input field for kostfiber */}
                   <input
                     type="number"
                     min="0"
@@ -556,12 +540,48 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
+              {/* This row shows the protein content */}
+              <tr className={protein ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {/* If the protein value is missing, an exclamation icon is displayed */}
+                  {protein ? (
+                    <Tooltip
+                      title="Mangler verdi i protein parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  Protein (g)
+                </th>
+                {/* This column allows the user to input the protein value */}
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="protein"
+                    value={nutrition.protein}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This is a table row for salt field */}
               <tr
                 className={
                   salt ? "alert-box" : null || saltNull ? "alert-box" : null
                 }
               >
                 <th scope="row" className="table-font">
+                  {/* If salt is missing, show a exclamation icon */}
                   {salt ? (
                     <Tooltip
                       title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden salt. Mengden på salt må være lavere enn eller lik 0.5 / 100 g for å møte kravene for Nøkkelhullsmerking."
@@ -589,6 +609,7 @@ const Kategori1 = () => {
                   ) : null}{" "}
                   Salt (g)
                 </th>
+                {/* Input field for salt */}
                 <td colSpan="2">
                   <input
                     type="number"
@@ -605,7 +626,7 @@ const Kategori1 = () => {
           </table>
         </div>
 
-        {/* Button that submits the form and calls the onClick function */}
+        {/* Button that submits the form and calls the onClick function when clicked */}
         <div className="col-12 button-div">
           <button
             type="submit"
@@ -621,17 +642,20 @@ const Kategori1 = () => {
         {/* If showResults is true, display the container with class "nøkkelhullet-food-result-container" */}
         {showResults ? (
           <div className="container nøkkelhullet-food-result-container">
+            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
             <img
               src={keyholeLgog}
               className="keyhole-logo img-fluid"
               alt="keyhole logo"
             />
+            {/* A heading with text "Nøkkelhullet" */}
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
                 <p>Produktet innfrir Nøkkelhullet. </p>
               </div>
               <div className="col-md-2">
+                {/* An icon with class "info-button" that triggers the onClickInfo function when clicked */}
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
@@ -639,6 +663,7 @@ const Kategori1 = () => {
                 />
               </div>
             </div>
+
             {info ? (
               <div className="container info-div row">
                 <div className="col-md-10">
