@@ -320,7 +320,6 @@ const Kategori1 = () => {
 
               {/* Additional rows for other nutrient selections */}
               {/* This row shows the fat content */}
-
               <tr
                 className={
                   fett ? "alert-box" : null || fettNull ? "alert-box" : null
