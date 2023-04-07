@@ -1,13 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react"; // import the useState hook.
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
 import { faBan } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Tooltip from "@mui/material/Tooltip";
-import keyholeLgog from "./circle-keyhole-logo.png";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
-import Select from "react-select";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
+import Tooltip from "@mui/material/Tooltip"; // import Tooltip component.
+import keyholeLgog from "./circle-keyhole-logo.png"; // import an image
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons"; // import an icon
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons"; // import an icon
+import Select from "react-select"; // import Select component
 
 // This component is called Kategori1
 const Kategori1 = () => {
@@ -472,7 +472,7 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
-              {/* This is a table row for hvorav sukkerarter field */}
+              {/* This row shows hvorav sukkerarter content */}
               <tr className={hvoravSukkerarter ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {/* If hvoravSukkerarter is missing, show a exclamation icon */}
@@ -506,7 +506,7 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
-              {/* This is a table row for kostfiber field */}
+              {/* This row shows kostfiber content */}
               <tr className={kostfiber ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {/* If kostfiber is missing, show a exclamation icon */}
@@ -574,7 +574,7 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
-              {/* This is a table row for salt field */}
+              {/* This row shows salt content */}
               <tr
                 className={
                   salt ? "alert-box" : null || saltNull ? "alert-box" : null
