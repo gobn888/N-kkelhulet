@@ -1,10 +1,10 @@
 import React from "react";
 
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import keyholeLgog from "./circle-keyhole-logo.png";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react"; // import the useState hook.
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
+import keyholeLgog from "./circle-keyhole-logo.png"; // import an image
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons"; // import an icon
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons"; // import an icon
 
 const Kategori21 = () => {
   // Defining a state variable called 'info' and a function to update it called 'setInfo'
