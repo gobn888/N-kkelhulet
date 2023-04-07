@@ -27,24 +27,24 @@ const Kategori0 = () => {
   // initialize state variables for showing/hiding input validation errors
   const [energikj, setEnergikj] = useState(false);
   const [energikcal, setEnergikcal] = useState(false);
-  const [mettede, setMettede] = useState(false);
   const [fett, setFett] = useState(false);
-  const [protein, setProtein] = useState(false);
+  const [mettede, setMettede] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
+  const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
 
   // initialize state variable for input values
   const [nutrition, setNutrition] = useState({
     energikj: "",
     energikcal: "",
-    mettede: "",
     fett: "",
-    protein: "",
+    mettede: "",
     karbohydrat: "",
     hvoravSukkerarter: "",
     kostfiber: "",
+    protein: "",
     salt: "",
   });
 
@@ -62,12 +62,12 @@ const Kategori0 = () => {
     if (
       nutrition.energikj !== "" &&
       nutrition.energikcal !== "" &&
-      nutrition.mettede !== "" &&
       nutrition.fett !== "" &&
-      nutrition.protein !== "" &&
+      nutrition.mettede !== "" &&
       nutrition.karbohydrat !== "" &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.kostfiber !== "" &&
+      nutrition.protein !== "" &&
       nutrition.salt !== ""
     ) {
       setShowResults(true);
@@ -76,12 +76,12 @@ const Kategori0 = () => {
       // reset input validation errors
       setEnergikj(false);
       setEnergikcal(false);
-      setMettede(false);
       setFett(false);
-      setProtein(false);
+      setMettede(false);
       setKarbohydrat(false);
       setHvoravSukkerarter(false);
       setKostfiber(false);
+      setProtein(false);
       setSalt(false);
     } else {
       // Check each nutrition value to see if it is missing or negative
@@ -103,14 +103,6 @@ const Kategori0 = () => {
       }
 
       // repeat for each nutrition value...
-      if (nutrition.mettede === "" || nutrition.mettede < 0) {
-        setMettede(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setMettede(false);
-      }
-
       if (nutrition.fett === "" || nutrition.fett < 0) {
         setFett(true);
         setShowResults(false);
@@ -119,12 +111,12 @@ const Kategori0 = () => {
         setFett(false);
       }
 
-      if (nutrition.protein === "" || nutrition.protein < 0) {
-        setProtein(true);
+      if (nutrition.mettede === "" || nutrition.mettede < 0) {
+        setMettede(true);
         setShowResults(false);
         setShowEmptyResult(true);
       } else {
-        setProtein(false);
+        setMettede(false);
       }
 
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
@@ -152,6 +144,14 @@ const Kategori0 = () => {
         setShowEmptyResult(true);
       } else {
         setKostfiber(false);
+      }
+
+      if (nutrition.protein === "" || nutrition.protein < 0) {
+        setProtein(true);
+        setShowResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setProtein(false);
       }
 
       if (nutrition.salt === "" || nutrition.salt < 0) {
@@ -260,40 +260,6 @@ const Kategori0 = () => {
                 </td>
               </tr>
 
-              {/* This row shows the saturated fat content */}
-              <tr className={mettede ? "alert-box" : null}>
-                <th scope="row" className="table-font">
-                  {/* If the saturated fat value is missing, an exclamation icon is displayed */}
-                  {fett ? (
-                    <Tooltip
-                      title="Mangler verdi i mettede fettsyrer parameter"
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon
-                          className="alert-icon"
-                          icon={faCircleExclamation}
-                        />
-                      </div>
-                    </Tooltip>
-                  ) : null}{" "}
-                  Mettede fettsyrer (g)
-                </th>
-                {/* This column allows the user to input the saturated fat value */}
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    name="mettede"
-                    value={nutrition.mettede}
-                    onChange={changeHandle}
-                    className="form-control"
-                  ></input>
-                </td>
-              </tr>
-
               {/* This row shows the fat content */}
               <tr className={fett ? "alert-box" : null}>
                 <th scope="row" className="table-font">
@@ -328,13 +294,13 @@ const Kategori0 = () => {
                 </td>
               </tr>
 
-              {/* This row shows the protein content */}
-              <tr className={protein ? "alert-box" : null}>
+              {/* This row shows the saturated fat content */}
+              <tr className={mettede ? "alert-box" : null}>
                 <th scope="row" className="table-font">
-                  {/* If the protein value is missing, an exclamation icon is displayed */}
-                  {protein ? (
+                  {/* If the saturated fat value is missing, an exclamation icon is displayed */}
+                  {fett ? (
                     <Tooltip
-                      title="Mangler verdi i protein parameter"
+                      title="Mangler verdi i mettede fettsyrer parameter"
                       placement="right"
                       arrow
                     >
@@ -346,16 +312,16 @@ const Kategori0 = () => {
                       </div>
                     </Tooltip>
                   ) : null}{" "}
-                  Protein (g)
+                  Mettede fettsyrer (g)
                 </th>
-                {/* This column allows the user to input the protein value */}
+                {/* This column allows the user to input the saturated fat value */}
                 <td>
                   <input
                     type="number"
                     min="0"
                     step="any"
-                    name="protein"
-                    value={nutrition.protein}
+                    name="mettede"
+                    value={nutrition.mettede}
                     onChange={changeHandle}
                     className="form-control"
                   ></input>
@@ -458,6 +424,40 @@ const Kategori0 = () => {
                     step="any"
                     name="kostfiber"
                     value={nutrition.kostfiber}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows the protein content */}
+              <tr className={protein ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {/* If the protein value is missing, an exclamation icon is displayed */}
+                  {protein ? (
+                    <Tooltip
+                      title="Mangler verdi i protein parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  Protein (g)
+                </th>
+                {/* This column allows the user to input the protein value */}
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="protein"
+                    value={nutrition.protein}
                     onChange={changeHandle}
                     className="form-control"
                   ></input>
