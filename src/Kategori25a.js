@@ -10,7 +10,7 @@ import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 
 const Kategori25a = () => {
-  // State variables for showing/hiding results and empty result message
+  // State variables for showing results and empty result message
   const [showResults, setShowResults] = useState("");
   const [showEmptyResult, setShowEmptyResult] = useState("");
 
@@ -29,27 +29,27 @@ const Kategori25a = () => {
   const [energikj, setEnergikj] = useState(false);
   const [energikcal, setEnergikcal] = useState(false);
 
-  const [mettede, setMettede] = useState(false);
-  const [mettedeNull, setMettedeNull] = useState(false);
   const [fett, setFett] = useState(false);
   const [fettNull, setFettNull] = useState(false);
-  const [protein, setProtein] = useState(false);
+  const [mettede, setMettede] = useState(false);
+  const [mettedeNull, setMettedeNull] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
   const [karbohydratNull, setKarbohydratNull] = useState(false);
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
+  const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
   const [saltNull, setSaltNull] = useState(false);
   // State variable for storing nutrition information entered by user
   const [nutrition, setNutrition] = useState({
     energikj: "",
     energikcal: "",
-    mettede: "",
     fett: "",
-    protein: "",
+    mettede: "",
     karbohydrat: "",
     hvoravSukkerarter: "",
     kostfiber: "",
+    protein: "",
     salt: "",
   });
 
@@ -67,15 +67,15 @@ const Kategori25a = () => {
     console.log("onclick ===", selectsPart, nutrition);
     // Check if all required fields are filled out and within valid ranges
     if (
-      nutrition.mettede !== "" &&
-      nutrition.mettede <= 3.5 &&
       nutrition.fett !== "" &&
       nutrition.fett <= 10 &&
-      nutrition.protein !== "" &&
+      nutrition.mettede !== "" &&
+      nutrition.mettede <= 3.5 &&
       nutrition.karbohydrat !== "" &&
       nutrition.karbohydrat <= 3 &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.kostfiber !== "" &&
+      nutrition.protein !== "" &&
       nutrition.salt !== "" &&
       nutrition.salt <= 1.5
     ) {
@@ -94,15 +94,15 @@ const Kategori25a = () => {
         setEnergikcal(false);
       }
       // reset all nutrition input validation errors
-      setMettede(false);
-      setMettedeNull(false);
       setFett(false);
       setFettNull(false);
-      setProtein(false);
+      setMettede(false);
+      setMettedeNull(false);
       setKarbohydrat(false);
       setKarbohydratNull(false);
       setHvoravSukkerarter(false);
       setKostfiber(false);
+      setProtein(false);
       setSalt(false);
       setSaltNull(false);
       // If the user has not selected any nutrients, set errors accordingly
@@ -133,20 +133,7 @@ const Kategori25a = () => {
         }
       }
 
-      if (nutrition.mettede === "" || nutrition.mettede < 0) {
-        setMettedeNull(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setMettedeNull(false);
-      }
-      if (nutrition.mettede > 3.5) {
-        setMettede(true);
-        setShowResults(false);
-      } else {
-        setMettede(false);
-      }
-
+      // repeat for each nutrition value...
       if (nutrition.fett === "" || nutrition.fett < 0) {
         setFettNull(true);
         setShowResults(false);
@@ -161,12 +148,18 @@ const Kategori25a = () => {
         setFett(false);
       }
 
-      if (nutrition.protein === "" || nutrition.protein < 0) {
-        setProtein(true);
+      if (nutrition.mettede === "" || nutrition.mettede < 0) {
+        setMettedeNull(true);
         setShowResults(false);
         setShowEmptyResult(true);
       } else {
-        setProtein(false);
+        setMettedeNull(false);
+      }
+      if (nutrition.mettede > 3.5) {
+        setMettede(true);
+        setShowResults(false);
+      } else {
+        setMettede(false);
       }
 
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
@@ -200,6 +193,14 @@ const Kategori25a = () => {
         setShowEmptyResult(true);
       } else {
         setKostfiber(false);
+      }
+
+      if (nutrition.protein === "" || nutrition.protein < 0) {
+        setProtein(true);
+        setShowResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setProtein(false);
       }
 
       if (nutrition.salt === "" || nutrition.salt < 0) {
@@ -264,7 +265,7 @@ const Kategori25a = () => {
 
             {/* The table body */}
             <tbody>
-              {/* A row for selecting the energy unit */}
+              {/* This row shows the energy content */}
               <tr className={(energikj, energikcal ? "alert-box" : null)}>
                 <th scope="row" className="table-font">
                   {/* An icon with a tooltip to indicate missing values in energy parameters */}
@@ -314,6 +315,54 @@ const Kategori25a = () => {
               </tr>
 
               {/* Additional rows for other nutrient selections */}
+              {/* This row shows the fat content */}
+              <tr
+                className={
+                  fett ? "alert-box" : null || fettNull ? "alert-box" : null
+                }
+              >
+                <th scope="row" className="table-font">
+                  {fett ? (
+                    <Tooltip
+                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden fett. Mengden på fett må være lavere enn eller lik 10/ 100 g for å møte kravene for Nøkkelhullsmerking."
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
+                      </div>
+                    </Tooltip>
+                  ) : null}
+                  {fettNull ? (
+                    <Tooltip
+                      title="Mangler verdi i fett parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  Fett (g)
+                </th>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="fett"
+                    value={nutrition.fett}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows the saturated fat content */}
               <tr
                 className={
                   mettede
@@ -364,83 +413,7 @@ const Kategori25a = () => {
                 </td>
               </tr>
 
-              <tr
-                className={
-                  fett ? "alert-box" : null || fettNull ? "alert-box" : null
-                }
-              >
-                <th scope="row" className="table-font">
-                  {fett ? (
-                    <Tooltip
-                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden fett. Mengden på fett må være lavere enn eller lik 10/ 100 g for å møte kravene for Nøkkelhullsmerking."
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
-                      </div>
-                    </Tooltip>
-                  ) : null}
-                  {fettNull ? (
-                    <Tooltip
-                      title="Mangler verdi i fett parameter"
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon
-                          className="alert-icon"
-                          icon={faCircleExclamation}
-                        />
-                      </div>
-                    </Tooltip>
-                  ) : null}{" "}
-                  Fett (g)
-                </th>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    name="fett"
-                    value={nutrition.fett}
-                    onChange={changeHandle}
-                    className="form-control"
-                  ></input>
-                </td>
-              </tr>
-
-              <tr className={protein ? "alert-box" : null}>
-                <th scope="row" className="table-font">
-                  {protein ? (
-                    <Tooltip
-                      title="Mangler verdi i protein parameter"
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon
-                          className="alert-icon"
-                          icon={faCircleExclamation}
-                        />
-                      </div>
-                    </Tooltip>
-                  ) : null}{" "}
-                  Protein (g)
-                </th>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    name="protein"
-                    value={nutrition.protein}
-                    onChange={changeHandle}
-                    className="form-control"
-                  ></input>
-                </td>
-              </tr>
-
+              {/* This row shows the carbohydrate content */}
               <tr
                 className={
                   karbohydrat
@@ -491,6 +464,7 @@ const Kategori25a = () => {
                 </td>
               </tr>
 
+              {/* This row shows hvorav sukkerarter content */}
               <tr className={hvoravSukkerarter ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {hvoravSukkerarter ? (
@@ -522,6 +496,7 @@ const Kategori25a = () => {
                 </td>
               </tr>
 
+              {/* This row shows kostfiber content */}
               <tr className={kostfiber ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {kostfiber ? (
@@ -553,6 +528,39 @@ const Kategori25a = () => {
                 </td>
               </tr>
 
+              {/* This row shows the protein content */}
+              <tr className={protein ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {protein ? (
+                    <Tooltip
+                      title="Mangler verdi i protein parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  Protein (g)
+                </th>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="protein"
+                    value={nutrition.protein}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows salt content */}
               <tr
                 className={
                   salt ? "alert-box" : null || saltNull ? "alert-box" : null
