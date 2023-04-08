@@ -357,7 +357,7 @@ const Kategori22b = () => {
               {/* This row shows the saturated fat content */}
               <tr className={mettede ? "alert-box" : null}>
                 <th scope="row" className="table-font">
-                  {fett ? (
+                  {mettede ? (
                     <Tooltip
                       title="Mangler verdi i mettede fettsyrer parameter"
                       placement="right"

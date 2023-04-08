@@ -305,7 +305,7 @@ const Kategori0 = () => {
               <tr className={mettede ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {/* If the saturated fat value is missing, an exclamation icon is displayed */}
-                  {fett ? (
+                  {mettede ? (
                     <Tooltip
                       title="Mangler verdi i mettede fettsyrer parameter"
                       placement="right"
