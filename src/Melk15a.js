@@ -590,7 +590,7 @@ const Melk15a = () => {
             className="btn btn-primary btn-lg button-search"
             onClick={onClick}
           >
-            Søk
+            Beregn
           </button>
         </div>
       </div>
