@@ -93,14 +93,14 @@ const Kategori28 = () => {
         setEnergikcal(false);
       }
       // reset all nutrition input validation errors
+      setFett(false);
       setMettede(false);
       setMettedeNull(false);
-      setFett(false);
-      setProtein(false);
       setKarbohydrat(false);
       setKarbohydratNull(false);
       setHvoravSukkerarter(false);
       setKostfiber(false);
+      setProtein(false);
       setSalt(false);
       setSaltNull(false);
 
@@ -132,6 +132,15 @@ const Kategori28 = () => {
         }
       }
 
+      // repeat for each nutrition value...
+      if (nutrition.fett === "" || nutrition.fett < 0) {
+        setFett(true);
+        setShowResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setFett(false);
+      }
+
       if (nutrition.mettede === "" || nutrition.mettede < 0) {
         setMettedeNull(true);
         setShowResults(false);
@@ -160,39 +169,6 @@ const Kategori28 = () => {
         setShowEmptyResult(true);
       } else {
         setProtein(false);
-      }
-
-      if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
-        setKarbohydratNull(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setKarbohydratNull(false);
-      }
-      if (nutrition.karbohydrat > 3) {
-        setKarbohydrat(true);
-        setShowResults(false);
-      } else {
-        setKarbohydrat(false);
-      }
-
-      if (
-        nutrition.hvoravSukkerarter === "" ||
-        nutrition.hvoravSukkerarter < 0
-      ) {
-        setHvoravSukkerarter(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setHvoravSukkerarter(false);
-      }
-
-      if (nutrition.kostfiber === "" || nutrition.kostfiber < 0) {
-        setKostfiber(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setKostfiber(false);
       }
 
       if (nutrition.salt === "" || nutrition.salt < 0) {
@@ -257,7 +233,7 @@ const Kategori28 = () => {
 
             {/* The table body */}
             <tbody>
-              {/* A row for selecting the energy unit */}
+              {/* This row shows the energy content */}
               <tr className={(energikj, energikcal ? "alert-box" : null)}>
                 <th scope="row" className="table-font">
                   {/* An icon with a tooltip to indicate missing values in energy parameters */}
@@ -305,8 +281,41 @@ const Kategori28 = () => {
                   ></input>
                 </td>
               </tr>
-
               {/* Additional rows for other nutrient selections */}
+              {/* This row shows the fat content */}
+
+              <tr className={fett ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {fett ? (
+                    <Tooltip
+                      title="Mangler verdi i fett parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  Fett (g)
+                </th>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="fett"
+                    value={nutrition.fett}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows the saturated fat content */}
               <tr
                 className={
                   mettede
@@ -356,68 +365,8 @@ const Kategori28 = () => {
                   ></input>
                 </td>
               </tr>
-              <tr className={fett ? "alert-box" : null}>
-                <th scope="row" className="table-font">
-                  {fett ? (
-                    <Tooltip
-                      title="Mangler verdi i fett parameter"
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon
-                          className="alert-icon"
-                          icon={faCircleExclamation}
-                        />
-                      </div>
-                    </Tooltip>
-                  ) : null}{" "}
-                  Fett (g)
-                </th>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    name="fett"
-                    value={nutrition.fett}
-                    onChange={changeHandle}
-                    className="form-control"
-                  ></input>
-                </td>
-              </tr>
 
-              <tr className={protein ? "alert-box" : null}>
-                <th scope="row" className="table-font">
-                  {protein ? (
-                    <Tooltip
-                      title="Mangler verdi i protein parameter"
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon
-                          className="alert-icon"
-                          icon={faCircleExclamation}
-                        />
-                      </div>
-                    </Tooltip>
-                  ) : null}{" "}
-                  Protein (g)
-                </th>
-                <td>
-                  <input
-                    type="number"
-                    min="0"
-                    step="any"
-                    name="protein"
-                    value={nutrition.protein}
-                    onChange={changeHandle}
-                    className="form-control"
-                  ></input>
-                </td>
-              </tr>
-
+              {/* This row shows the carbohydrate content */}
               <tr
                 className={
                   karbohydrat
@@ -468,6 +417,7 @@ const Kategori28 = () => {
                 </td>
               </tr>
 
+              {/* This row shows hvorav sukkerarter content */}
               <tr className={hvoravSukkerarter ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {hvoravSukkerarter ? (
@@ -499,6 +449,7 @@ const Kategori28 = () => {
                 </td>
               </tr>
 
+              {/* This row shows kostfiber content */}
               <tr className={kostfiber ? "alert-box" : null}>
                 <th scope="row" className="table-font">
                   {kostfiber ? (
@@ -530,6 +481,39 @@ const Kategori28 = () => {
                 </td>
               </tr>
 
+              {/* This row shows the protein content */}
+              <tr className={protein ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {protein ? (
+                    <Tooltip
+                      title="Mangler verdi i protein parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  Protein (g)
+                </th>
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="protein"
+                    value={nutrition.protein}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows salt content */}
               <tr
                 className={
                   salt ? "alert-box" : null || saltNull ? "alert-box" : null
