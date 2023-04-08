@@ -590,7 +590,7 @@ const Kategori24b3 = () => {
             className="btn btn-primary btn-lg button-search"
             onClick={onClick}
           >
-            Søk
+            Beregn
           </button>
         </div>
       </div>
