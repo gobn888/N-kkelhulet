@@ -719,6 +719,7 @@ const Kategori0 = () => {
             <button
               className="btn btn-primary"
               onClick={() => window.location.reload()}
+              style={{ marginLeft: "10px" }}
             >
               Legg til et nytt produkt
             </button>
@@ -745,6 +746,7 @@ const Kategori0 = () => {
             <button
               className="btn btn-primary"
               onClick={() => window.location.reload()}
+              style={{ marginLeft: "10px" }}
             >
               Legg til et nytt produkt
             </button>
