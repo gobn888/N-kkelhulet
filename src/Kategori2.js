@@ -100,6 +100,17 @@ const Kategori2 = () => {
             </div>
           </div>
         </div>
+
+        {/* Spacer */}
+        <div style={{ padding: "5px" }}></div>
+
+        {/* add new product button */}
+        <button
+          className="btn btn-primary"
+          onClick={() => window.location.reload()}
+        >
+          Legg til et nytt produkt
+        </button>
       </div>
     </div>
   );
