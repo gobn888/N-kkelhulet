@@ -772,6 +772,42 @@ const Kategori24a1 = () => {
             </div>
           </div>
         )}
+
+        {/* If showResults is true, display the button */}
+        {showResults ? (
+          <>
+            {/* All your existing code for showResults === true */}
+
+            {/* Spacer */}
+            <div style={{ padding: "5px" }}></div>
+
+            {/* add a new product button */}
+            <button
+              className="btn btn-primary"
+              onClick={() => window.location.reload()}
+            >
+              Legg til et nytt produkt
+            </button>
+          </>
+        ) : null}
+
+        {/* If showResults is false, display the button */}
+        {showResults === false && (
+          <>
+            {/* All your existing code for showResults === false */}
+
+            {/* Spacer */}
+            <div style={{ padding: "5px" }}></div>
+
+            {/* add a new product button */}
+            <button
+              className="btn btn-primary"
+              onClick={() => window.location.reload()}
+            >
+              Legg til et nytt produkt
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
