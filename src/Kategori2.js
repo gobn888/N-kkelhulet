@@ -104,20 +104,23 @@ const Kategori2 = () => {
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
 
-        {/* Buttons container */}
-        <div className="button-container">
-          {/* Save button */}
-          <button className="btn btn-secondary mr-2">Lagre produkt</button>
-          {/* Share button */}
-          <button className="btn btn-secondary mr-2">Del produkt</button>
-          {/* add new product button */}
-          <button
-            className="btn btn-primary"
-            onClick={() => window.location.reload()}
-          >
-            Legg til et nytt produkt
-          </button>
-        </div>
+        {/* Save button */}
+        <button className="btn btn-success" style={{ marginLeft: "10px" }}>
+          Lagre produkt
+        </button>
+
+        {/* Share button */}
+        <button className="btn btn-info" style={{ marginLeft: "10px" }}>
+          Del produkt
+        </button>
+
+        {/* add new product button */}
+        <button
+          className="btn btn-primary"
+          onClick={() => window.location.reload()}
+        >
+          Legg til et nytt produkt
+        </button>
       </div>
     </div>
   );

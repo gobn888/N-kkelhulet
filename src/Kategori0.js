@@ -731,14 +731,6 @@ const Kategori0 = () => {
             {/* Spacer */}
             <div style={{ padding: "5px" }}></div>
 
-            {/* add a new product button */}
-            <button
-              className="btn btn-primary"
-              onClick={() => window.location.reload()}
-            >
-              Legg til et nytt produkt
-            </button>
-
             {/* Save button */}
             <button className="btn btn-success" style={{ marginLeft: "10px" }}>
               Lagre produkt
@@ -747,6 +739,14 @@ const Kategori0 = () => {
             {/* Share button */}
             <button className="btn btn-info" style={{ marginLeft: "10px" }}>
               Del produkt
+            </button>
+
+            {/* add a new product button */}
+            <button
+              className="btn btn-primary"
+              onClick={() => window.location.reload()}
+            >
+              Legg til et nytt produkt
             </button>
           </>
         )}
