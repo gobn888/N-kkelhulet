@@ -103,10 +103,21 @@ const Kategori21 = () => {
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
 
+        {/* Save button */}
+        <button className="btn btn-secondary" style={{ marginLeft: "10px" }}>
+          Lagre produkt
+        </button>
+
+        {/* Share button */}
+        <button className="btn btn-secondary" style={{ marginLeft: "10px" }}>
+          Del produkt
+        </button>
+
         {/* add new product button */}
         <button
-          className="btn btn-primary"
+          className="btn btn-secondary"
           onClick={() => window.location.reload()}
+          style={{ marginLeft: "10px" }}
         >
           Legg til et nytt produkt
         </button>
