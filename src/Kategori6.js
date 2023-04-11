@@ -716,16 +716,17 @@ const Kategori6 = () => {
                 ) : null}
 
                 {fett ? <p>** Fett verdien kan være høyst 8 g/100 g.</p> : null}
+
+                {karbohydrat ? (
+                  <p>
+                    ** Tilsatte sukkerarter verdien kan være høyst 13 g/100 g.
+                  </p>
+                ) : null}
+
                 {hvoravSukkerarter ? (
                   <p>
                     ** Hvorav tilsatte sukkerarter verdien kan være høyst 9
                     g/100 g.
-                  </p>
-                ) : null}
-
-                {karbohydrat ? (
-                  <p>
-                    ** Tilsatte sukkerarter verdien kan være høyst 3 g/100 g.
                   </p>
                 ) : null}
 
