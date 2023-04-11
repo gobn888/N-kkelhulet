@@ -33,8 +33,9 @@ const Kategori18 = () => {
   const [fettNull, setFettNull] = useState(false);
   const [mettede, setMettede] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
-  const [karbohydratNull, setKarbohydratNull] = useState(false);
+
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
+  const [hvoravSukkerarterNull, setHvoravSukkerarterNull] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
   const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
@@ -71,8 +72,8 @@ const Kategori18 = () => {
       nutrition.fett <= 5 &&
       nutrition.mettede !== "" &&
       nutrition.karbohydrat !== "" &&
-      nutrition.karbohydrat <= 1 &&
       nutrition.hvoravSukkerarter !== "" &&
+      nutrition.hvoravSukkerarter <= 1 &&
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
       nutrition.salt !== "" &&
@@ -97,8 +98,9 @@ const Kategori18 = () => {
       setFettNull(false);
       setMettede(false);
       setKarbohydrat(false);
-      setKarbohydratNull(false);
+
       setHvoravSukkerarter(false);
+      setHvoravSukkerarterNull(false);
       setKostfiber(false);
       setProtein(false);
       setSalt(false);
@@ -155,27 +157,30 @@ const Kategori18 = () => {
         setMettede(false);
       }
 
+      // Check if the 'karbohydrat' input is missing or negative, and display an error message if necessary
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
-        setKarbohydratNull(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setKarbohydratNull(false);
-      }
-      if (nutrition.karbohydrat > 1) {
         setKarbohydrat(true);
         setShowResults(false);
+        setShowEmptyResult(true);
       } else {
         setKarbohydrat(false);
       }
 
+      // Check if the 'hvoravSukkerarter' input is missing, negative or above the maximum allowed value (1),
+      // and display an error message if necessary
       if (
         nutrition.hvoravSukkerarter === "" ||
         nutrition.hvoravSukkerarter < 0
       ) {
-        setHvoravSukkerarter(true);
+        setHvoravSukkerarterNull(true);
         setShowResults(false);
         setShowEmptyResult(true);
+      } else {
+        setHvoravSukkerarterNull(false);
+      }
+      if (nutrition.hvoravSukkerarter > 1) {
+        setHvoravSukkerarter(true);
+        setShowResults(false);
       } else {
         setHvoravSukkerarter(false);
       }
@@ -387,29 +392,11 @@ const Kategori18 = () => {
                 </td>
               </tr>
 
-              {/* This row shows the carbohydrate content */}
-              <tr
-                className={
-                  karbohydrat
-                    ? "alert-box"
-                    : null || karbohydratNull
-                    ? "alert-box"
-                    : null
-                }
-              >
+              {/* This row shows the carbohydrate (total sugars)content */}
+              <tr className={karbohydrat ? "alert-box" : null}>
                 <th scope="row" className="table-font">
+                  {/* If the "karbohydrat" value is missing, display an exclamation icon with a tooltip */}
                   {karbohydrat ? (
-                    <Tooltip
-                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden sukkerarter. Mengden på sukkerarter må være lavere enn eller lik 1 g / 100 g for å møte kravene for Nøkkelhullsmerking."
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
-                      </div>
-                    </Tooltip>
-                  ) : null}
-                  {karbohydratNull ? (
                     <Tooltip
                       title="Mangler verdi i karbohydrat parameter"
                       placement="right"
@@ -425,6 +412,7 @@ const Kategori18 = () => {
                   ) : null}{" "}
                   Karbohydrat (g)
                 </th>
+                {/* Input field for "karbohydrat" value */}
                 <td>
                   <input
                     type="number"
@@ -438,10 +426,31 @@ const Kategori18 = () => {
                 </td>
               </tr>
 
-              {/* This row shows hvorav sukkerarter content */}
-              <tr className={hvoravSukkerarter ? "alert-box" : null}>
+              {/* This row shows hvorav tilsatte sukkerarter (added sugars)content */}
+              <tr
+                className={
+                  hvoravSukkerarter
+                    ? "alert-box"
+                    : null || hvoravSukkerarterNull
+                    ? "alert-box"
+                    : null
+                }
+              >
                 <th scope="row" className="table-font">
+                  {/* If the "hvoravSukkerarter" value is too high, display a ban icon with a tooltip */}
                   {hvoravSukkerarter ? (
+                    <Tooltip
+                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden hvoravSukkerarter. Mengden på hvoravSukkerarter må være lavere enn eller lik 1 g/ 100 g for å møte kravene for Nøkkelhullsmerking."
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
+                      </div>
+                    </Tooltip>
+                  ) : null}
+                  {/* If the "hvoravSukkerarter" value is missing, display an exclamation icon with a tooltip */}
+                  {hvoravSukkerarterNull ? (
                     <Tooltip
                       title="Mangler verdi i hvorav sukkerarter parameter"
                       placement="right"
@@ -457,6 +466,8 @@ const Kategori18 = () => {
                   ) : null}{" "}
                   • Hvorav tilsatte sukkerarter (g)
                 </th>
+                {/* Input field for "hvoravSukkerarter" value */}
+
                 <td>
                   <input
                     type="number"
@@ -660,11 +671,12 @@ const Kategori18 = () => {
 
                 {fett ? <p>** Fett verdien kan være høyst 5 g/100 g.</p> : null}
 
-                {karbohydrat ? (
+                {hvoravSukkerarter ? (
                   <p>
                     ** Tilsatte sukkerarter verdien kan være høyst 1 g/100 g.
                   </p>
                 ) : null}
+
                 {salt ? (
                   <p>** Salt verdien kan være høyst 0.9 g/100 g.</p>
                 ) : null}
