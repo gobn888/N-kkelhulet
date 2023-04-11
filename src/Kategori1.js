@@ -69,6 +69,7 @@ const Kategori1 = () => {
   const onClick = () => {
     console.log("onclick ===", selectsPart, nutrition);
     // Check if all required fields are filled out and within valid ranges
+    // The if statement checks if all required inputs are non-empty and meet the nutritional requirements
     if (
       nutrition.fett !== "" &&
       nutrition.fett <= 3 &&
@@ -82,9 +83,9 @@ const Kategori1 = () => {
       nutrition.salt !== "" &&
       nutrition.salt <= 0.5
     ) {
-      // Sets the state to show the nutrition results
+      // If all requirements are met, display the nutrition results
       setShowResults(true);
-      // Hides the empty result message
+      // Hide any empty result messages or error messages
       setShowEmptyResult(false);
 
       // Check if the user selected "energikj" and if nutrition input lable of "energikj" is not empty
@@ -96,7 +97,7 @@ const Kategori1 = () => {
       if (selectsPart === "energikcal" && nutrition.energikcal !== "") {
         setEnergikcal(false);
       }
-      // reset all nutrition input validation errors
+      // Reset all input validation errors
 
       setFett(false);
       setFettNull(false);
@@ -111,9 +112,7 @@ const Kategori1 = () => {
       setSalt(false);
       setSaltNull(false);
 
-      // If the user has not selected any nutrients, set errors accordingly
-      // Check each nutrition value to see if it is missing or negative
-      // show input validation errors if any input is missing or negative.
+      // If any inputs are missing or do not meet the requirements, show appropriate error messages
     } else {
       if (selectsPart === "energikj") {
         console.log("energikj ===", selectsPart, nutrition.energikj);
@@ -168,6 +167,7 @@ const Kategori1 = () => {
         setMettede(false);
       }
 
+      // Check if the 'karbohydrat' input is missing or negative, and display an error message if necessary
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
         setKarbohydrat(true);
         setShowResults(false);
@@ -176,6 +176,8 @@ const Kategori1 = () => {
         setKarbohydrat(false);
       }
 
+      // Check if the 'hvoravSukkerarter' input is missing, negative or above the maximum allowed value (1),
+      // and display an error message if necessary
       if (
         nutrition.hvoravSukkerarter === "" ||
         nutrition.hvoravSukkerarter < 0
@@ -423,6 +425,7 @@ const Kategori1 = () => {
               {/* This row shows the carbohydrate (total sugars)content */}
               <tr className={karbohydrat ? "alert-box" : null}>
                 <th scope="row" className="table-font">
+                  {/* If the "karbohydrat" value is missing, display an exclamation icon with a tooltip */}
                   {karbohydrat ? (
                     <Tooltip
                       title="Mangler verdi i karbohydrat parameter"
@@ -439,6 +442,7 @@ const Kategori1 = () => {
                   ) : null}{" "}
                   Karbohydrat (g)
                 </th>
+                {/* Input field for "karbohydrat" value */}
                 <td>
                   <input
                     type="number"
@@ -463,6 +467,7 @@ const Kategori1 = () => {
                 }
               >
                 <th scope="row" className="table-font">
+                  {/* If the "hvoravSukkerarter" value is too high, display a ban icon with a tooltip */}
                   {hvoravSukkerarter ? (
                     <Tooltip
                       title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden hvoravSukkerarter. Mengden på hvoravSukkerarter må være lavere enn eller lik 1 g/ 100 g for å møte kravene for Nøkkelhullsmerking."
@@ -474,6 +479,7 @@ const Kategori1 = () => {
                       </div>
                     </Tooltip>
                   ) : null}
+                  {/* If the "hvoravSukkerarter" value is missing, display an exclamation icon with a tooltip */}
                   {hvoravSukkerarterNull ? (
                     <Tooltip
                       title="Mangler verdi i hvorav sukkerarter parameter"
@@ -490,6 +496,8 @@ const Kategori1 = () => {
                   ) : null}{" "}
                   • Hvorav tilsatte sukkerarter (g)
                 </th>
+                {/* Input field for "hvoravSukkerarter" value */}
+
                 <td>
                   <input
                     type="number"
