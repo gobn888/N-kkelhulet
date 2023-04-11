@@ -70,7 +70,6 @@ const Kategori24b1 = () => {
       nutrition.fett <= 10 &&
       nutrition.mettede !== "" &&
       nutrition.karbohydrat !== "" &&
-      nutrition.karbohydrat !== "" &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.hvoravSukkerarter <= 3 &&
       nutrition.kostfiber !== "" &&
