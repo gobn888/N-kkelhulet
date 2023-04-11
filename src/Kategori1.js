@@ -35,8 +35,9 @@ const Kategori1 = () => {
   const [mettede, setMettede] = useState(false);
   const [mettedeNull, setMettedeNull] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
-  const [karbohydratNull, setKarbohydratNull] = useState(false);
+
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
+  const [hvoravSukkerarterNull, setHvoravSukkerarterNull] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
   const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
@@ -74,8 +75,8 @@ const Kategori1 = () => {
       nutrition.mettede !== "" &&
       nutrition.mettede <= 0.6 &&
       nutrition.karbohydrat !== "" &&
-      nutrition.karbohydrat <= 1 &&
       nutrition.hvoravSukkerarter !== "" &&
+      nutrition.hvoravSukkerarter <= 1 &&
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
       nutrition.salt !== "" &&
@@ -102,8 +103,9 @@ const Kategori1 = () => {
       setMettede(false);
       setMettedeNull(false);
       setKarbohydrat(false);
-      setKarbohydratNull(false);
+
       setHvoravSukkerarter(false);
+      setHvoravSukkerarterNull(false);
       setKostfiber(false);
       setProtein(false);
       setSalt(false);
@@ -167,15 +169,9 @@ const Kategori1 = () => {
       }
 
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
-        setKarbohydratNull(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setKarbohydratNull(false);
-      }
-      if (nutrition.karbohydrat > 1) {
         setKarbohydrat(true);
         setShowResults(false);
+        setShowEmptyResult(true);
       } else {
         setKarbohydrat(false);
       }
@@ -184,9 +180,15 @@ const Kategori1 = () => {
         nutrition.hvoravSukkerarter === "" ||
         nutrition.hvoravSukkerarter < 0
       ) {
-        setHvoravSukkerarter(true);
+        setHvoravSukkerarterNull(true);
         setShowResults(false);
         setShowEmptyResult(true);
+      } else {
+        setHvoravSukkerarterNull(false);
+      }
+      if (nutrition.hvoravSukkerarter > 1) {
+        setHvoravSukkerarter(true);
+        setShowResults(false);
       } else {
         setHvoravSukkerarter(false);
       }
@@ -418,30 +420,10 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
-              {/* This row shows the carbohydrate content */}
-              <tr
-                className={
-                  karbohydrat
-                    ? "alert-box"
-                    : null || karbohydratNull
-                    ? "alert-box"
-                    : null
-                }
-              >
+              {/* This row shows the carbohydrate (total sugars)content */}
+              <tr className={karbohydrat ? "alert-box" : null}>
                 <th scope="row" className="table-font">
-                  {/* If the carbohydrate value is missing, an exclamation icon is displayed */}
                   {karbohydrat ? (
-                    <Tooltip
-                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden sukkerarter. Mengden på sukkerarter må være lavere enn eller lik 1 g / 100 g for å møte kravene for Nøkkelhullsmerking."
-                      placement="right"
-                      arrow
-                    >
-                      <div className="icon">
-                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
-                      </div>
-                    </Tooltip>
-                  ) : null}
-                  {karbohydratNull ? (
                     <Tooltip
                       title="Mangler verdi i karbohydrat parameter"
                       placement="right"
@@ -457,7 +439,6 @@ const Kategori1 = () => {
                   ) : null}{" "}
                   Karbohydrat (g)
                 </th>
-                {/* This column allows the user to input the carbohydrate value */}
                 <td>
                   <input
                     type="number"
@@ -471,11 +452,29 @@ const Kategori1 = () => {
                 </td>
               </tr>
 
-              {/* This row shows hvorav sukkerarter content */}
-              <tr className={hvoravSukkerarter ? "alert-box" : null}>
+              {/* This row shows hvorav tilsatte sukkerarter (added sugars)content */}
+              <tr
+                className={
+                  hvoravSukkerarter
+                    ? "alert-box"
+                    : null || hvoravSukkerarterNull
+                    ? "alert-box"
+                    : null
+                }
+              >
                 <th scope="row" className="table-font">
-                  {/* If hvoravSukkerarter is missing, show a exclamation icon */}
                   {hvoravSukkerarter ? (
+                    <Tooltip
+                      title="Produktet innfrir ikke Nøkkelhullet på grunn av mengden hvoravSukkerarter. Mengden på hvoravSukkerarter må være lavere enn eller lik 1 g/ 100 g for å møte kravene for Nøkkelhullsmerking."
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon className="alert-icon" icon={faBan} />
+                      </div>
+                    </Tooltip>
+                  ) : null}
+                  {hvoravSukkerarterNull ? (
                     <Tooltip
                       title="Mangler verdi i hvorav sukkerarter parameter"
                       placement="right"
@@ -492,7 +491,6 @@ const Kategori1 = () => {
                   • Hvorav tilsatte sukkerarter (g)
                 </th>
                 <td>
-                  {/* Input field for hvoravSukkerarter */}
                   <input
                     type="number"
                     min="0"
@@ -711,7 +709,7 @@ const Kategori1 = () => {
                   <p>** Tilsatt fett verdien kan være høyst 3 g/100 g.</p>
                 ) : null}
 
-                {karbohydrat ? (
+                {hvoravSukkerarter ? (
                   <p>
                     ** Tilsatte sukkerarter verdien kan være høyst 1 g/100 g.
                   </p>
