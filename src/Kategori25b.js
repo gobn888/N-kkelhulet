@@ -189,6 +189,7 @@ const Kategori25b = () => {
       } else {
         setHvoravSukkerarter(false);
       }
+
       if (nutrition.kostfiber === "" || nutrition.kostfiber < 0) {
         setKostfiber(true);
         setShowResults(false);
