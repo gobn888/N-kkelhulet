@@ -787,11 +787,7 @@ const Kategori1 = () => {
             <div className="row">
               <div className="col-md-10">
                 <p>Under utvikling.</p>
-                {noAddedSugars ? (
-                  <p>Uten tilsatt sukker</p>
-                ) : (
-                  <p>Uten tilsatt sukker ({hvoravSukkerarter}g)</p>
-                )}
+                {noAddedSugars ? <p>Uten tilsatt sukker</p> : null}
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
@@ -831,6 +827,9 @@ const Kategori1 = () => {
             <div className="row">
               <div className="col-md-10">
                 <p>Under utvikling. </p>
+                {noAddedSugars ? (
+                  <p>Ingen underholdsbidragskrav tillatt</p>
+                ) : null}
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
