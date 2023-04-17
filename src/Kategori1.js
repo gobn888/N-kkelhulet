@@ -43,6 +43,9 @@ const Kategori1 = () => {
   const [salt, setSalt] = useState(false);
   const [saltNull, setSaltNull] = useState(false);
 
+  //state variable to store the result of the "WITH NO ADDED SUGARS" check
+  const [noAddedSugars, setNoAddedSugars] = useState(false);
+
   // initialize State variable for storing nutrition information entered by user/input values
   const [nutrition, setNutrition] = useState({
     energikj: "",
@@ -247,6 +250,15 @@ const Kategori1 = () => {
     const inputVal = document.getElementsByName(event.value);
     console.log("handlerPart ===", event, nutrition, inputVal);
     setSelectPart(event.value);
+  };
+
+  //function called checkForAddedSugars that takes hvoravSukkerarter as an argument and sets the noAddedSugars state variable to true if hvoravSukkerarter is 0, and false otherwise.
+  const checkForAddedSugars = (hvoravSukkerarter) => {
+    if (hvoravSukkerarter === 0) {
+      setNoAddedSugars(true);
+    } else {
+      setNoAddedSugars(false);
+    }
   };
 
   return (
@@ -774,12 +786,41 @@ const Kategori1 = () => {
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
-                <p>Under utvikling. </p>
+                <p>Under utvikling.</p>
+                {noAddedSugars ? (
+                  <p>Uten tilsatt sukker</p>
+                ) : (
+                  <p>Uten tilsatt sukker ({hvoravSukkerarter}g)</p>
+                )}
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
               </div>
             </div>
+            {info ? (
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={onClickClose}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         ) : null}
 
@@ -795,6 +836,30 @@ const Kategori1 = () => {
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
               </div>
             </div>
+            {info ? (
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={onClickClose}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
 
