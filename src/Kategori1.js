@@ -43,6 +43,8 @@ const Kategori1 = () => {
   const [salt, setSalt] = useState(false);
   const [saltNull, setSaltNull] = useState(false);
 
+  const [withoutAddedSugars, setWithoutAddedSugars] = useState(false);
+
   // initialize State variable for storing nutrition information entered by user/input values
   const [nutrition, setNutrition] = useState({
     energikj: "",
@@ -82,8 +84,13 @@ const Kategori1 = () => {
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
       nutrition.salt !== "" &&
-      nutrition.salt <= 0.5
+      nutrition.salt <= 0.5 &&
+      nutrition.hvoravSukkerarter === "0" &&
+      nutrition.karbohydrat > 0
     ) {
+      // set the state variable for the claim to true
+      setWithoutAddedSugars(true);
+
       // If all requirements are met, display the nutrition results
       setShowResults(true);
       // Hide any empty result messages or error messages
@@ -777,6 +784,17 @@ const Kategori1 = () => {
               <div className="col-md-10">
                 {/* conditionals for individual nutrtition claims */}
 
+                {withoutAddedSugars && (
+                  <div>
+                    <p>Uten tilsatt sukker</p>
+                    <p>
+                      Dette produktet inneholder ikke noen tilsatte mono- eller
+                      disakkarider eller andre matvarer som brukes for deres
+                      søtende egenskaper.
+                    </p>
+                  </div>
+                )}
+
                 <p>Under utvikling.</p>
               </div>
               <div className="col-md-2">
@@ -816,6 +834,12 @@ const Kategori1 = () => {
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
+                {!withoutAddedSugars && (
+                  <div>
+                    <p>Ingen gyldige ernæringspåstander.</p>
+                  </div>
+                )}
+
                 <p>Under utvikling. </p>
               </div>
               <div className="col-md-2">
@@ -867,6 +891,30 @@ const Kategori1 = () => {
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
               </div>
             </div>
+            {info ? (
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={onClickClose}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         ) : null}
 
@@ -882,6 +930,30 @@ const Kategori1 = () => {
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
               </div>
             </div>
+            {info ? (
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={onClickClose}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
 
