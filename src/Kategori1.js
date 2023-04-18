@@ -68,6 +68,7 @@ const Kategori1 = () => {
   // define function to handle form submission
   const onClick = () => {
     console.log("onclick ===", selectsPart, nutrition);
+
     // Check if all required fields are filled out and within valid ranges
     // The if statement checks if all required inputs are non-empty and meet the nutritional requirements
     if (
@@ -774,8 +775,9 @@ const Kategori1 = () => {
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
+                {/* conditionals for individual nutrtition claims */}
+
                 <p>Under utvikling.</p>
-                {hvoravSukkerarter === 0 && <p>WITH NO ADDED SUGARS</p>}
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
@@ -815,8 +817,6 @@ const Kategori1 = () => {
             <div className="row">
               <div className="col-md-10">
                 <p>Under utvikling. </p>
-
-                <p>Ingen underholdsbidragskrav tillatt</p>
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
