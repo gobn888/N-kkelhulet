@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react"; // import the useState hook.
+import { useState, useEffect } from "react"; // import the useState and useeffect hook.
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
@@ -12,8 +12,31 @@ import Select from "react-select"; // import Select component
 // This component is called Kategori1
 const Kategori1 = () => {
   // State variables for showing results and empty result message
-  const [showResults, setShowResults] = useState(""); // initialize state variable for showing results.
+
+  const [showNokkelhulletResults, setShowNokkelhulletResults] = useState(null);
+  const [showErnaeringsResults, setShowErnaeringsResults] = useState(null);
+  const [showHelsepåstander, setShowHelsepåstander] = useState(null);
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
+
+  //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
+  const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
+
+  // State variable for tracking if the button is clicked
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  // useEffect hook for checking the condition for the "WITH NO ADDED SUGARS" claim when button is clicked
+  useEffect(() => {
+    if (buttonClicked) {
+      if (withNoAddedSugars) {
+        setShowErnaeringsResults(true);
+      } else {
+        setShowErnaeringsResults(false);
+      }
+    }
+  }, [withNoAddedSugars, buttonClicked]);
+
+  //state for controlling the buttons' visibility
+  const [showButtons, setShowButtons] = useState(false);
 
   // Define functions to handle clicks on info tooltip
   const [info, setInfo] = useState(""); // initialize state variable for showing info message.
@@ -43,8 +66,6 @@ const Kategori1 = () => {
   const [salt, setSalt] = useState(false);
   const [saltNull, setSaltNull] = useState(false);
 
-  const [withoutAddedSugars, setWithoutAddedSugars] = useState(false);
-
   // initialize State variable for storing nutrition information entered by user/input values
   const [nutrition, setNutrition] = useState({
     energikj: "",
@@ -68,7 +89,12 @@ const Kategori1 = () => {
   };
 
   // define function to handle form submission
-  const onClick = () => {
+  const onClick = (e) => {
+    e.preventDefault();
+    setButtonClicked(true);
+    setShowHelsepåstander(true);
+    setShowButtons(true);
+
     console.log("onclick ===", selectsPart, nutrition);
 
     // Check if all required fields are filled out and within valid ranges
@@ -84,15 +110,10 @@ const Kategori1 = () => {
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
       nutrition.salt !== "" &&
-      nutrition.salt <= 0.5 &&
-      nutrition.hvoravSukkerarter === "0" &&
-      nutrition.karbohydrat > 0
+      nutrition.salt <= 0.5
     ) {
-      // set the state variable for the claim to true
-      setWithoutAddedSugars(true);
-
       // If all requirements are met, display the nutrition results
-      setShowResults(true);
+      setShowNokkelhulletResults(true);
       // Hide any empty result messages or error messages
       setShowEmptyResult(false);
 
@@ -127,7 +148,7 @@ const Kategori1 = () => {
         if (nutrition.energikj === "" || nutrition.energikj < 0) {
           console.log("energikj ===", selectsPart, nutrition.energikj);
           setEnergikj(true);
-          setShowResults(false);
+          setShowNokkelhulletResults(false);
           setShowEmptyResult(true);
         } else {
           setEnergikj(false);
@@ -139,7 +160,7 @@ const Kategori1 = () => {
         if (nutrition.energikcal === "" || nutrition.energikcal < 0) {
           console.log("energikcal ===", selectsPart, nutrition.energikcal);
           setEnergikcal(true);
-          setShowResults(false);
+          setShowNokkelhulletResults(false);
           setShowEmptyResult(true);
         } else {
           setEnergikcal(false);
@@ -149,28 +170,28 @@ const Kategori1 = () => {
       // repeat for each nutrition value...
       if (nutrition.fett === "" || nutrition.fett < 0) {
         setFettNull(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setFettNull(false);
       }
       if (nutrition.fett > 3) {
         setFett(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
       } else {
         setFett(false);
       }
 
       if (nutrition.mettede === "" || nutrition.mettede < 0) {
         setMettedeNull(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setMettedeNull(false);
       }
       if (nutrition.mettede > 0.6) {
         setMettede(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
       } else {
         setMettede(false);
       }
@@ -178,7 +199,7 @@ const Kategori1 = () => {
       // Check if the 'karbohydrat' input is missing or negative, and display an error message if necessary
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
         setKarbohydrat(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setKarbohydrat(false);
@@ -191,21 +212,21 @@ const Kategori1 = () => {
         nutrition.hvoravSukkerarter < 0
       ) {
         setHvoravSukkerarterNull(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setHvoravSukkerarterNull(false);
       }
       if (nutrition.hvoravSukkerarter > 1) {
         setHvoravSukkerarter(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
       } else {
         setHvoravSukkerarter(false);
       }
 
       if (nutrition.kostfiber === "" || nutrition.kostfiber < 0) {
         setKostfiber(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setKostfiber(false);
@@ -213,7 +234,7 @@ const Kategori1 = () => {
 
       if (nutrition.protein === "" || nutrition.protein < 0) {
         setProtein(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setProtein(false);
@@ -221,17 +242,24 @@ const Kategori1 = () => {
 
       if (nutrition.salt === "" || nutrition.salt < 0) {
         setSaltNull(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setSaltNull(false);
       }
       if (nutrition.salt > 0.5) {
         setSalt(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
       } else {
         setSalt(false);
       }
+    }
+
+    // Check the condition for the "WITH NO ADDED SUGARS" nutrition claim
+    if (nutrition.hvoravSukkerarter === "0" && nutrition.karbohydrat > 0) {
+      setWithNoAddedSugars(true);
+    } else {
+      setWithNoAddedSugars(false);
     }
   };
 
@@ -652,8 +680,8 @@ const Kategori1 = () => {
       </div>
 
       <div className="col-md-6">
-        {/* If showResults is true, display the container with class "nøkkelhullet-food-result-container" */}
-        {showResults ? (
+        {/* positive results nøkkelhullet container" */}
+        {showNokkelhulletResults ? (
           <div className="container nøkkelhullet-food-result-container">
             {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
             <img
@@ -706,8 +734,9 @@ const Kategori1 = () => {
             ) : null}
           </div>
         ) : null}
-        {/* If showResults is false, display the container with class "nøkkelhullet-food-negResult-container" */}
-        {showResults === false && (
+
+        {/*Negative results nøkkelhullet container" */}
+        {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
             <h5>Nøkkelhullet</h5>
             <div className="row">
@@ -773,8 +802,8 @@ const Kategori1 = () => {
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
 
-        {/* Display results for ernæringspåstander if showResults is true */}
-        {showResults ? (
+        {/* container for ernæringspåstander if Results are true */}
+        {showErnaeringsResults ? (
           <div
             className="container ernæringspåstander-food-result-container"
             style={{ background: "#f2f0b5" }}
@@ -784,9 +813,9 @@ const Kategori1 = () => {
               <div className="col-md-10">
                 {/* conditionals for individual nutrtition claims */}
 
-                {withoutAddedSugars && (
+                {withNoAddedSugars && (
                   <div>
-                    <p>Uten tilsatt sukker</p>
+                    <h6>** Uten tilsatt sukker:</h6>
                     <p>
                       Dette produktet inneholder ikke noen tilsatte mono- eller
                       disakkarider eller andre matvarer som brukes for deres
@@ -828,13 +857,13 @@ const Kategori1 = () => {
           </div>
         ) : null}
 
-        {/* Display results for ernæringspåstander if showResults is false */}
-        {showResults === false && (
+        {/* container for ernæringspåstander if Results are false */}
+        {showErnaeringsResults === false && (
           <div className="container ernæringspåstander-food-negResult-container">
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
-                {!withoutAddedSugars && (
+                {!withNoAddedSugars && (
                   <div>
                     <p>Ingen gyldige ernæringspåstander.</p>
                   </div>
@@ -876,8 +905,8 @@ const Kategori1 = () => {
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
 
-        {/* Display results for helsepåstander if showResults is true */}
-        {showResults ? (
+        {/* container for Helsepåstander results  */}
+        {showHelsepåstander && (
           <div
             className="container helsepåstander-food-result-container"
             style={{ background: "#f2f0b5" }}
@@ -916,85 +945,13 @@ const Kategori1 = () => {
               </div>
             ) : null}
           </div>
-        ) : null}
-
-        {/* Display results for helsepåstander if showResults is false */}
-        {showResults === false && (
-          <div className="container helsepåstander-food-negResult-container">
-            <h5>Helsepåstander</h5>
-            <div className="row">
-              <div className="col-md-10">
-                <p>Under utvikling. </p>
-              </div>
-              <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
-              </div>
-            </div>
-            {info ? (
-              <div className="container info-div row">
-                <div className="col-md-10">
-                  <p>
-                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
-                    om ernærings- og helsepåstander om næringsmidler:
-                    <a
-                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      lovdata.no
-                    </a>
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <FontAwesomeIcon
-                    className="x-button"
-                    icon={faXmarkCircle}
-                    onClick={onClickClose}
-                  />
-                </div>
-              </div>
-            ) : null}
-          </div>
         )}
 
-        {/* If showResults is true, display the button */}
-        {showResults ? (
+        {/*  conditional rendering for the buttons using showButtons state */}
+        {showButtons && (
           <>
             {/* Spacer */}
             <div style={{ padding: "5px" }}></div>
-            {/* Save button */}
-            <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
-            >
-              Lagre produkt
-            </button>
-
-            {/* Share button */}
-            <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
-            >
-              Del produkt
-            </button>
-
-            {/* add a new product button */}
-            <button
-              className="btn btn-secondary"
-              onClick={() => window.location.reload()}
-              style={{ marginLeft: "10px" }}
-            >
-              Legg til et nytt produkt
-            </button>
-          </>
-        ) : null}
-
-        {/* If showResults is false, display the button */}
-        {showResults === false && (
-          <>
-            {/* Spacer */}
-            <div style={{ padding: "5px" }}></div>
-
             {/* Save button */}
             <button
               className="btn btn-secondary"
