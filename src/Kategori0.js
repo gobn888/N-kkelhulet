@@ -194,7 +194,7 @@ const Kategori0 = () => {
 
   return (
     <div className="row">
-      <h5>Porsjon (gram) 100</h5>
+      <h5>Næringsinnhold per 100 g/ml</h5>
 
       {/* This div creates a column layout for the left side of the table */}
       <div className="col-md-6">
