@@ -18,6 +18,15 @@ const Kategori1 = () => {
   const [showHelsepåstander, setShowHelsepåstander] = useState(null);
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
+  //state variable to store the user's food type selection (solid or liquid) and the low sugars claim result
+  const [foodType, setFoodType] = useState("");
+  const [lowSugars, setLowSugars] = useState(null);
+
+  //event handler for the selector that sets the food type state
+  const onFoodTypeChange = (e) => {
+    setFoodType(e.target.value);
+  };
+
   //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
   const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
 
@@ -271,6 +280,15 @@ const Kategori1 = () => {
       }
     }
 
+    // Check for the "LOW SUGARS" claim
+    if (foodType === "solid" && karbohydrat <= 5) {
+      setLowSugars(true);
+    } else if (foodType === "liquid" && karbohydrat <= 2.5) {
+      setLowSugars(true);
+    } else {
+      setLowSugars(false);
+    }
+
     // Check the condition for the "WITH NO ADDED SUGARS" nutrition claim
     if (nutrition.hvoravSukkerarter === "0" && nutrition.karbohydrat > 0) {
       setWithNoAddedSugars(true);
@@ -303,10 +321,27 @@ const Kategori1 = () => {
 
   return (
     <div className="row">
-      <h5>Porsjon (gram) 100</h5>
-
       {/* This div creates a column layout for the left side of the table */}
       <div className="col-md-6">
+        {/* the selector (dropdown menu) for choosing the food type. */}
+        <div className="form-group">
+          <label htmlFor="foodType">Velg type matvare:</label>
+          <select
+            className="form-control"
+            id="foodType"
+            onChange={onFoodTypeChange}
+          >
+            <option value="">-- Velg --</option>
+            <option value="solid">Fast form</option>
+            <option value="liquid">Flytende form</option>
+          </select>
+        </div>
+
+        <h5>
+          Næringsinnhold per 100{" "}
+          {foodType === "solid" ? "g" : foodType === "liquid" ? "ml" : "g/ml"}
+        </h5>
+
         {/* This div adds a light background color to the table */}
         <div className="bg-light">
           {/* This table shows the nutritional information */}
@@ -822,14 +857,18 @@ const Kategori1 = () => {
 
         {/* container for ernæringspåstander if Results are true */}
         {showErnaeringsResults ? (
-          <div
-            className="container ernæringspåstander-food-result-container"
-            style={{ background: "#f2f0b5" }}
-          >
+          <div className="container ernæringspåstander-food-result-container">
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
                 {/* conditionals for individual nutrtition claims */}
+
+                {lowSugars && (
+                  <div>
+                    <h6>** Lavt sukkerinnhold:</h6>
+                    <p>Dette produktet har lavt sukkerinnhold.</p>
+                  </div>
+                )}
 
                 {withNoAddedSugars && (
                   <div>
@@ -841,8 +880,6 @@ const Kategori1 = () => {
                     </p>
                   </div>
                 )}
-
-                <p>Under utvikling.</p>
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon
@@ -886,13 +923,11 @@ const Kategori1 = () => {
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
-                {!withNoAddedSugars && (
+                {!withNoAddedSugars && !lowSugars && (
                   <div>
                     <p>Ingen gyldige ernæringspåstander.</p>
                   </div>
                 )}
-
-                <p>Under utvikling. </p>
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon
