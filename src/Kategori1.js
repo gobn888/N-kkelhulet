@@ -38,15 +38,31 @@ const Kategori1 = () => {
   //state for controlling the buttons' visibility
   const [showButtons, setShowButtons] = useState(false);
 
-  // Define functions to handle clicks on info tooltip
-  const [info, setInfo] = useState(""); // initialize state variable for showing info message.
-  // Handler for showing info tooltip
-  const onClickInfo = () => {
-    setInfo(true);
+  // State variables to control the visibility of the information sections
+  const [infoNokkelhullet, setInfoNokkelhullet] = useState(false);
+  const [infoErnaerings, setInfoErnaerings] = useState(false);
+  const [infoHelsepåstander, setInfoHelsepåstander] = useState(false);
+
+  // Function to show an information section based on the container parameter
+  const onClickInfo = (container) => {
+    if (container === "nokkelhullet") {
+      setInfoNokkelhullet(true);
+    } else if (container === "ernaerings") {
+      setInfoErnaerings(true);
+    } else if (container === "helsepåstander") {
+      setInfoHelsepåstander(true);
+    }
   };
-  // Handler for closing info tooltip
-  const onClickClose = () => {
-    setInfo(false);
+
+  // Function to hide an information section based on the container parameter
+  const onClickClose = (container) => {
+    if (container === "nokkelhullet") {
+      setInfoNokkelhullet(false);
+    } else if (container === "ernaerings") {
+      setInfoErnaerings(false);
+    } else if (container === "helsepåstander") {
+      setInfoHelsepåstander(false);
+    }
   };
 
   // initialize State variables for handling input fields and validation errors
@@ -696,16 +712,17 @@ const Kategori1 = () => {
                 <p>Produktet innfrir Nøkkelhullet. </p>
               </div>
               <div className="col-md-2">
-                {/* An icon with class "info-button" that triggers the onClickInfo function when clicked */}
+                {/* FontAwesome icon with event listener to show the "Nøkkelhullet" information section */}
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
-                  onClick={onClickInfo}
+                  onClick={() => onClickInfo("nokkelhullet")}
                 />
               </div>
             </div>
 
-            {info ? (
+            {infoNokkelhullet ? (
+              // Information section for "Nøkkelhullet"
               <div className="container info-div row">
                 <div className="col-md-10">
                   {/* A paragraph with a link to Lovdata's "Forskrift om frivillig merking a nœringsmidler med Nokkellhullet" */}
@@ -723,11 +740,11 @@ const Kategori1 = () => {
                   </p>
                 </div>
                 <div className="col-md-2">
-                  {/* An icon button with class "x-button" that triggers the onClickClose function when clicked */}
+                  {/* FontAwesome icon with event listener to hide the "Nøkkelhullet" information section */}
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("nokkelhullet")}
                   />
                 </div>
               </div>
@@ -768,11 +785,12 @@ const Kategori1 = () => {
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
-                  onClick={onClickInfo}
+                  onClick={() => onClickInfo("nokkelhullet")}
                 />
               </div>
             </div>
-            {info ? (
+            {infoNokkelhullet ? (
+              // Information section for "Nøkkelhullet"
               <div className="container info-div row">
                 <div className="col-md-10">
                   <p>
@@ -791,7 +809,7 @@ const Kategori1 = () => {
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("nokkelhullet")}
                   />
                 </div>
               </div>
@@ -827,10 +845,15 @@ const Kategori1 = () => {
                 <p>Under utvikling.</p>
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("ernaerings")}
+                />
               </div>
             </div>
-            {info ? (
+            {infoErnaerings ? (
+              // Information section for "Ernæringspåstander"
               <div className="container info-div row">
                 <div className="col-md-10">
                   <p>
@@ -849,7 +872,7 @@ const Kategori1 = () => {
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("ernaerings")}
                   />
                 </div>
               </div>
@@ -872,10 +895,15 @@ const Kategori1 = () => {
                 <p>Under utvikling. </p>
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("ernaerings")}
+                />
               </div>
             </div>
-            {info ? (
+            {infoErnaerings ? (
+              // Information section for "Ernæringspåstander"
               <div className="container info-div row">
                 <div className="col-md-10">
                   <p>
@@ -894,7 +922,7 @@ const Kategori1 = () => {
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("ernaerings")}
                   />
                 </div>
               </div>
@@ -917,10 +945,15 @@ const Kategori1 = () => {
                 <p>Under utvikling. </p>
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("helsepåstander")}
+                />
               </div>
             </div>
-            {info ? (
+            {infoHelsepåstander ? (
+              // Information section for "Helsepåstander"
               <div className="container info-div row">
                 <div className="col-md-10">
                   <p>
@@ -939,7 +972,7 @@ const Kategori1 = () => {
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("helsepåstander")}
                   />
                 </div>
               </div>
