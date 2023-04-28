@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react"; // import the useState and useeffect hook.
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
 import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { faSave, faShare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
 import Tooltip from "@mui/material/Tooltip"; // import Tooltip component.
 import keyholeLgog from "./circle-keyhole-logo.png"; // import an image
@@ -1023,6 +1024,7 @@ const Kategori1 = () => {
               className="btn btn-secondary"
               style={{ marginLeft: "10px" }}
             >
+              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>
               Lagre produkt
             </button>
 
@@ -1031,6 +1033,7 @@ const Kategori1 = () => {
               className="btn btn-secondary"
               style={{ marginLeft: "10px" }}
             >
+              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>
               Del produkt
             </button>
 
@@ -1040,6 +1043,7 @@ const Kategori1 = () => {
               onClick={() => window.location.reload()}
               style={{ marginLeft: "10px" }}
             >
+              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>
               Legg til et nytt produkt
             </button>
           </>
