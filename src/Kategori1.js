@@ -281,9 +281,12 @@ const Kategori1 = () => {
     }
 
     // Check for the "LOW SUGARS" claim
-    if (foodType === "solid" && karbohydrat <= 5) {
+    if (foodType === "solid" && parseFloat(nutrition.karbohydrat) <= 5) {
       setLowSugars(true);
-    } else if (foodType === "liquid" && karbohydrat <= 2.5) {
+    } else if (
+      foodType === "liquid" &&
+      parseFloat(nutrition.karbohydrat) <= 2.5
+    ) {
       setLowSugars(true);
     } else {
       setLowSugars(false);
@@ -855,77 +858,72 @@ const Kategori1 = () => {
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
 
-        {/* container for ernæringspåstander if Results are true */}
-        {showErnaeringsResults ? (
-          <div className="container ernæringspåstander-food-result-container">
+        {/* container for ernæringspåstander if there are all true results */}
+        {buttonClicked && (
+          <div
+            className={
+              lowSugars && withNoAddedSugars
+                ? "container ernæringspåstander-food-result-container-all"
+                : !lowSugars && !withNoAddedSugars
+                ? "container ernæringspåstander-food-result-container-none"
+                : "container ernæringspåstander-food-result-container-some"
+            }
+          >
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
-                {/* conditionals for individual nutrtition claims */}
-
-                {lowSugars && (
+                {/* Low sugars */}
+                {lowSugars ? (
                   <div>
-                    <h6>** Lavt sukkerinnhold:</h6>
-                    <p>Dette produktet har lavt sukkerinnhold.</p>
-                  </div>
-                )}
-
-                {withNoAddedSugars && (
-                  <div>
-                    <h6>** Uten tilsatt sukker:</h6>
+                    <p>** Lavt sukkerinnhold:</p>
                     <p>
-                      Dette produktet inneholder ikke noen tilsatte mono- eller
-                      disakkarider eller andre matvarer som brukes for deres
-                      søtende egenskaper.
+                      Dette produktet inneholder høyst 5 g sukkerarter per 100 g
+                      for næringsmidler i fast form, eller høyst 2,5 g
+                      sukkerarter per 100 ml for næringsmidler i flytende form
+                      og oppfyller kravet for "Lavt sukkerinnhold".
                     </p>
                   </div>
-                )}
-              </div>
-              <div className="col-md-2">
-                <FontAwesomeIcon
-                  className="info-button"
-                  icon={faCircleInfo}
-                  onClick={() => onClickInfo("ernaerings")}
-                />
-              </div>
-            </div>
-            {infoErnaerings ? (
-              // Information section for "Ernæringspåstander"
-              <div className="container info-div row">
-                <div className="col-md-10">
-                  <p>
-                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
-                    om ernærings- og helsepåstander om næringsmidler:
-                    <a
-                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      lovdata.no
-                    </a>
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  <FontAwesomeIcon
-                    className="x-button"
-                    icon={faXmarkCircle}
-                    onClick={() => onClickClose("ernaerings")}
-                  />
-                </div>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-
-        {/* container for ernæringspåstander if Results are false */}
-        {showErnaeringsResults === false && (
-          <div className="container ernæringspåstander-food-negResult-container">
-            <h5>Ernæringspåstander</h5>
-            <div className="row">
-              <div className="col-md-10">
-                {!withNoAddedSugars && !lowSugars && (
+                ) : (
                   <div>
-                    <p>Ingen gyldige ernæringspåstander.</p>
+                    <p>
+                      ** Produktet innfrir ikke "Lavt sukkerinnhold" påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        For faste næringsmidler, sukkerinnholdet må være høyst 5
+                        g per 100 g.
+                      </li>
+                      <li>
+                        For flytende næringsmidler, sukkerinnholdet må være
+                        høyst 2,5 g per 100 ml.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {/* No added sugars */}
+                {withNoAddedSugars ? (
+                  <div>
+                    <p>** Uten tilsatt sukker:</p>
+                    <p>
+                      Dette produktet er ikke tilsatt monosakkarider,
+                      disakkarider eller andre næringsmidler på grunn av deres
+                      søtende egenskaper og oppfyller kravet for "Uten tilsatt
+                      sukker".
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      ** Produktet innfrir ikke "Uten tilsatt sukker" påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        Produktet må ikke være tilsatt monosakkarider,
+                        disakkarider eller andre næringsmidler på grunn av deres
+                        søtende egenskaper.
+                      </li>
+                    </ul>
                   </div>
                 )}
               </div>

@@ -37,22 +37,28 @@
 }
 
 .nøkkelhullet-food-result-container {
-  background: #daecd8;
+  background: #daecd8; /* green */
   padding: 1rem;
 }
 
 .nøkkelhullet-food-negResult-container {
-  background: #f3b7b7;
+  background: #f3b7b7; /* red */
   padding: 1rem;
 }
 
-.ernæringspåstander-food-result-container {
-  background: #daecd8;
+.ernæringspåstander-food-result-container-all {
+  background: #daecd8; /* green */
   padding: 1rem;
 }
 
-.ernæringspåstander-food-negResult-container {
-  background: #f3b7b7;
+.ernæringspåstander-food-result-container-some {
+  background: #f5c5a5; /* orange */
+
+  padding: 1rem;
+}
+
+.ernæringspåstander-food-result-container-none {
+  background: #f3b7b7; /* red */
   padding: 1rem;
 }
 
@@ -62,7 +68,7 @@
 }
 
 .helsepåstander-food-negResult-container {
-  background: #f2f0b5;
+  background: #f3b7b7; /* red */
   padding: 1rem;
 }
 
