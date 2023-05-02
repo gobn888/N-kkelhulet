@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react"; // import the useState hook.
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
-
+import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { faSave, faShare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
 import Tooltip from "@mui/material/Tooltip"; // import Tooltip component.
 import keyholeLgog from "./circle-keyhole-logo.png"; // import an image
@@ -9,20 +10,43 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons"; // import an i
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons"; // import an icon
 import Select from "react-select"; // import Select component
 
-// Define a functional component named Kategori0.
+// This component is called Kategori1
 const Kategori0 = () => {
-  const [showResults, setShowResults] = useState(""); // initialize state variable for showing results.
+  // State variables for showing results and empty result message
+
+  const [showNokkelhulletResults, setShowNokkelhulletResults] = useState(null);
+  const [showErnaeringsResults, setShowErnaeringsResults] = useState(null);
+  const [showHelsepåstander, setShowHelsepåstander] = useState(null);
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
-  // define functions to handle clicks on info tooltip
-  const [info, setInfo] = useState(""); // initialize state variable for showing info message.
-  // Handler for showing info tooltip
-  const onClickInfo = () => {
-    setInfo(true);
+  //state for controlling the buttons' visibility
+  const [showButtons, setShowButtons] = useState(false);
+
+  // State variables to control the visibility of the information sections
+  const [infoNokkelhullet, setInfoNokkelhullet] = useState(false);
+  const [infoErnaerings, setInfoErnaerings] = useState(false);
+  const [infoHelsepåstander, setInfoHelsepåstander] = useState(false);
+
+  // Function to show an information section based on the container parameter
+  const onClickInfo = (container) => {
+    if (container === "nokkelhullet") {
+      setInfoNokkelhullet(true);
+    } else if (container === "ernaerings") {
+      setInfoErnaerings(true);
+    } else if (container === "helsepåstander") {
+      setInfoHelsepåstander(true);
+    }
   };
-  // Handler for closing info tooltip
-  const onClickClose = () => {
-    setInfo(false);
+
+  // Function to hide an information section based on the container parameter
+  const onClickClose = (container) => {
+    if (container === "nokkelhullet") {
+      setInfoNokkelhullet(false);
+    } else if (container === "ernaerings") {
+      setInfoErnaerings(false);
+    } else if (container === "helsepåstander") {
+      setInfoHelsepåstander(false);
+    }
   };
 
   // initialize State variables for handling input fields and validation errors
@@ -51,16 +75,25 @@ const Kategori0 = () => {
 
   // Handler for updating nutrition state/state variable based on input field changes/input values
   const changeHandle = (event) => {
-    console.log("changeHandle ===", event.target);
+    console.log("changeHandle ===", event.target, event.target.value);
     setNutrition({
       ...nutrition,
-      [event.target.name]: [event.target.value],
+      [event.target.name]: event.target.value,
     });
   };
 
   // define function to handle form submission
-  const onClick = () => {
+  const onClick = (e) => {
+    e.preventDefault();
+
+    setShowHelsepåstander(true);
+    setShowErnaeringsResults(true);
+    setShowButtons(true);
+
+    console.log("onclick ===", selectsPart, nutrition);
+
     // Check if all required fields are filled out and within valid ranges
+    // The if statement checks if all required inputs are non-empty and meet the nutritional requirements
     if (
       nutrition.energikj !== "" &&
       nutrition.energikcal !== "" &&
@@ -72,10 +105,21 @@ const Kategori0 = () => {
       nutrition.protein !== "" &&
       nutrition.salt !== ""
     ) {
-      // Sets the state to show the nutrition results
-      setShowResults(true);
-      // Hides the empty result message
+      // If all requirements are met, display the nutrition results
+      setShowNokkelhulletResults(true);
+      // Hide any empty result messages or error messages
       setShowEmptyResult(false);
+
+      // Check if the user selected "energikj" and if nutrition input lable of "energikj" is not empty
+      if (selectsPart === "energikj" && nutrition.energikj !== "") {
+        setEnergikj(false);
+      }
+
+      // Check if the user selected "energikcal" and if nutrition input lable of "energikcal" is not empty
+      if (selectsPart === "energikcal" && nutrition.energikcal !== "") {
+        setEnergikcal(false);
+      }
+      // Reset all input validation errors
 
       // reset all nutrition input validation errors
       setEnergikj(false);
@@ -87,30 +131,36 @@ const Kategori0 = () => {
       setKostfiber(false);
       setProtein(false);
       setSalt(false);
+      // If any inputs are missing or do not meet the requirements, show appropriate error messages
     } else {
-      // If the user has not selected any nutrients, set errors accordingly
-      // Check each nutrition value to see if it is missing or negative
-      // show input validation errors if any input is missing or negative.
-      if (nutrition.energikj === "" || nutrition.energikj < 0) {
-        setEnergikj(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setEnergikj(false);
+      if (selectsPart === "energikj") {
+        console.log("energikj ===", selectsPart, nutrition.energikj);
+        if (nutrition.energikj === "" || nutrition.energikj < 0) {
+          console.log("energikj ===", selectsPart, nutrition.energikj);
+          setEnergikj(true);
+          setShowNokkelhulletResults(false);
+          setShowEmptyResult(true);
+        } else {
+          setEnergikj(false);
+        }
       }
 
-      if (nutrition.energikcal === "" || nutrition.energikcal < 0) {
-        setEnergikcal(true);
-        setShowResults(false);
-        setShowEmptyResult(true);
-      } else {
-        setEnergikcal(false);
+      if (selectsPart === "energikcal") {
+        console.log("energikcal ===", selectsPart, nutrition.energikcal);
+        if (nutrition.energikcal === "" || nutrition.energikcal < 0) {
+          console.log("energikcal ===", selectsPart, nutrition.energikcal);
+          setEnergikcal(true);
+          setShowNokkelhulletResults(false);
+          setShowEmptyResult(true);
+        } else {
+          setEnergikcal(false);
+        }
       }
 
       // repeat for each nutrition value...
       if (nutrition.fett === "" || nutrition.fett < 0) {
         setFett(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setFett(false);
@@ -118,15 +168,16 @@ const Kategori0 = () => {
 
       if (nutrition.mettede === "" || nutrition.mettede < 0) {
         setMettede(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setMettede(false);
       }
 
+      // Check if the 'karbohydrat' input is missing or negative, and display an error message if necessary
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
         setKarbohydrat(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setKarbohydrat(false);
@@ -137,7 +188,7 @@ const Kategori0 = () => {
         nutrition.hvoravSukkerarter < 0
       ) {
         setHvoravSukkerarter(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setHvoravSukkerarter(false);
@@ -145,7 +196,7 @@ const Kategori0 = () => {
 
       if (nutrition.kostfiber === "" || nutrition.kostfiber < 0) {
         setKostfiber(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setKostfiber(false);
@@ -153,7 +204,7 @@ const Kategori0 = () => {
 
       if (nutrition.protein === "" || nutrition.protein < 0) {
         setProtein(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setProtein(false);
@@ -161,7 +212,7 @@ const Kategori0 = () => {
 
       if (nutrition.salt === "" || nutrition.salt < 0) {
         setSalt(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setSalt(false);
@@ -522,64 +573,8 @@ const Kategori0 = () => {
       {/* End of the div with class "button-div" */}
 
       <div className="col-md-6">
-        {/* If showResults is true, display the container with class "nøkkelhullet-food-result-container" */}
-        {showResults ? (
-          <div className="container nøkkelhullet-food-result-container">
-            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
-            <img
-              src={keyholeLgog}
-              className="keyhole-logo img-fluid"
-              alt="keyhole logo"
-            />
-            {/* A heading with text "Nøkkelhullet" */}
-            <h5>Nøkkelhullet</h5>
-            {/* A div with class "row" */}
-            <div className="row">
-              <div className="col-md-10">
-                {/* A paragraph with text "Produktet innfrir Nøkkelhullet." */}
-                <p>Produktet innfrir Nøkkelhullet. </p>
-              </div>
-              <div className="col-md-2">
-                {/* An icon with class "info-button" that triggers the onClickInfo function when clicked */}
-                <FontAwesomeIcon
-                  className="info-button"
-                  icon={faCircleInfo}
-                  onClick={onClickInfo}
-                />
-              </div>
-            </div>
-            {/* If info is true, display the container with class "info-div row" */}
-            {info ? (
-              <div className="container info-div row">
-                <div className="col-md-10">
-                  {/* A paragraph with a link to lovdata.no */}
-                  <p>
-                    Les mer om hvilke krav det stilles for merking av
-                    Nokkellhullet på Lovdatas "Forskrift om frivillig merking a
-                    nœringsmidler med Nokkellhullet":
-                    <a
-                      href="https://lovdata.no/dokument/SF/forskrift/2015-02-18-139"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      lovdata.no
-                    </a>
-                  </p>
-                </div>
-                <div className="col-md-2">
-                  {/* An icon with class "x-button" that triggers the onClickClose function when clicked */}
-                  <FontAwesomeIcon
-                    className="x-button"
-                    icon={faXmarkCircle}
-                    onClick={onClickClose}
-                  />
-                </div>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-        {/* If showResults is false, display the container with class "nøkkelhullet-food-negResult-container" */}
-        {showResults === false && (
+        {/*Negative results nøkkelhullet container" */}
+        {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
             <h5>Nøkkelhullet</h5>
             <div className="row">
@@ -597,11 +592,12 @@ const Kategori0 = () => {
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
-                  onClick={onClickInfo}
+                  onClick={() => onClickInfo("nokkelhullet")}
                 />
               </div>
             </div>
-            {info ? (
+            {infoNokkelhullet ? (
+              // Information section for "Nøkkelhullet"
               <div className="container info-div row">
                 <div className="col-md-10">
                   <p>
@@ -620,7 +616,7 @@ const Kategori0 = () => {
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("nokkelhullet")}
                   />
                 </div>
               </div>
@@ -630,45 +626,60 @@ const Kategori0 = () => {
 
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-
-        {/* Display results for ernæringspåstander if showResults is true */}
-        {showResults ? (
-          <div
-            className="container ernæringspåstander-food-result-container"
-            style={{ background: "#f2f0b5" }}
-          >
+        {/* container for Ernaerings results  */}
+        {showErnaeringsResults && (
+          <div className="container ernæringspåstander-food-result-container-none">
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
-                <p>Under utvikling. </p>
-              </div>
-              <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
-              </div>
-            </div>
-          </div>
-        ) : null}
+                {showEmptyResult ? (
+                  <p>** Obligatoriske næringsverdier kan ikke være tomme.</p>
+                ) : null}
 
-        {/* Display results for ernæringspåstander if showResults is false */}
-        {showResults === false && (
-          <div className="container ernæringspåstander-food-negResult-container">
-            <h5>Ernæringspåstander</h5>
-            <div className="row">
-              <div className="col-md-10">
-                <p>Under utvikling. </p>
+                {showEmptyResult ? (
+                  <p>** Velg mat på matkategori velger.</p>
+                ) : null}
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("ernaerings")}
+                />
               </div>
             </div>
+            {infoErnaerings ? (
+              // Information section for "Ernæringspåstander"
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={() => onClickClose("ernaerings")}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
 
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-
-        {/* Display results for helsepåstander if showResults is true */}
-        {showResults ? (
+        {/* container for Helsepåstander results  */}
+        {showHelsepåstander && (
           <div
             className="container helsepåstander-food-result-container"
             style={{ background: "#f2f0b5" }}
@@ -679,90 +690,73 @@ const Kategori0 = () => {
                 <p>Under utvikling. </p>
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("helsepåstander")}
+                />
               </div>
             </div>
-          </div>
-        ) : null}
-
-        {/* Display results for helsepåstander if showResults is false */}
-        {showResults === false && (
-          <div className="container helsepåstander-food-negResult-container">
-            <h5>Helsepåstander</h5>
-            <div className="row">
-              <div className="col-md-10">
-                <p>Under utvikling. </p>
+            {infoHelsepåstander ? (
+              // Information section for "Helsepåstander"
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={() => onClickClose("helsepåstander")}
+                  />
+                </div>
               </div>
-              <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
-              </div>
-            </div>
+            ) : null}
           </div>
         )}
-
-        {/* If showResults is true, display the button */}
-        {showResults ? (
-          <>
-            {/* Spacer */}
-            <div style={{ padding: "5px" }}></div>
+        {/* Spacer */}
+        <div style={{ padding: "15px" }}></div>
+        {/* conditional rendering for the buttons using showButtons state */}
+        {showButtons && (
+          <div className="d-flex justify-content-between">
             {/* Save button */}
             <button
               className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
+              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
               Lagre produkt
             </button>
 
             {/* Share button */}
             <button
               className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
+              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
               Del produkt
             </button>
 
-            {/* add a new product button */}
+            {/* Add a new product button */}
             <button
               className="btn btn-secondary"
               onClick={() => window.location.reload()}
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
+              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>{" "}
               Legg til et nytt produkt
             </button>
-          </>
-        ) : null}
-
-        {/* If showResults is false, display the button */}
-        {showResults === false && (
-          <>
-            {/* Spacer */}
-            <div style={{ padding: "5px" }}></div>
-
-            {/* Save button */}
-            <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
-            >
-              Lagre produkt
-            </button>
-
-            {/* Share button */}
-            <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
-            >
-              Del produkt
-            </button>
-
-            {/* add a new product button */}
-            <button
-              className="btn btn-secondary"
-              onClick={() => window.location.reload()}
-              style={{ marginLeft: "10px" }}
-            >
-              Legg til et nytt produkt
-            </button>
-          </>
+          </div>
         )}
       </div>
     </div>
