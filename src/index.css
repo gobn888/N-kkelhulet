@@ -1,6 +1,8 @@
+/* Set the font properties, text color, and background color for the body */
 body {
-  font-family: 'Montserrat';
-  font-style: normal;
-  color: #00205B;
-  ;
+  font-family: "Montserrat", sans-serif; /* use the Montserrat font */
+  font-style: normal; /* set the font style to normal */
+  font-size: 1rem; /* set the base font size to 16px (1rem) for better readability */
+  color: #00205b; /* set the text color to a dark blue */
+  background-color: #ffffff; /* set the background color to white */
 }
