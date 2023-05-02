@@ -23,11 +23,6 @@ const Kategori1 = () => {
   const [foodType, setFoodType] = useState("");
   const [lowSugars, setLowSugars] = useState(null);
 
-  //event handler for the selector that sets the food type state
-  const onFoodTypeChange = (e) => {
-    setFoodType(e.target.value);
-  };
-
   //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
   const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
 
@@ -323,6 +318,18 @@ const Kategori1 = () => {
     setSelectPart(event.value);
   };
 
+  //create an array of food types to select from
+  const foodTypes = [
+    {
+      value: "solid",
+      label: "Fast form",
+    },
+    {
+      value: "liquid",
+      label: "Flytende form",
+    },
+  ];
+
   return (
     <div className="row">
       {/* This div creates a column layout for the left side of the table */}
@@ -330,15 +337,13 @@ const Kategori1 = () => {
         {/* the selector (dropdown menu) for choosing the food type. */}
         <div className="form-group">
           <label htmlFor="foodType">Velg type matvare:</label>
-          <select
+          <Select
             className="form-control"
             id="foodType"
-            onChange={onFoodTypeChange}
-          >
-            <option value="">-- Velg --</option>
-            <option value="solid">Fast form</option>
-            <option value="liquid">Flytende form</option>
-          </select>
+            options={foodTypes}
+            onChange={(e) => setFoodType(e.value)} // update the onFoodTypeChange function to directly set the food type state
+            placeholder="Velg type matvare"
+          />
         </div>
 
         <h5>
@@ -1009,7 +1014,7 @@ const Kategori1 = () => {
           </div>
         )}
         {/* Spacer */}
-        <div style={{ padding: "5px" }}></div>
+        <div style={{ padding: "15px" }}></div>
         {/* conditional rendering for the buttons using showButtons state */}
         {showButtons && (
           <div className="d-flex justify-content-between">
