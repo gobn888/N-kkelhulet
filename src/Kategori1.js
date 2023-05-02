@@ -790,7 +790,6 @@ const Kategori1 = () => {
             ) : null}
           </div>
         ) : null}
-
         {/*Negative results nøkkelhullet container" */}
         {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
@@ -855,10 +854,8 @@ const Kategori1 = () => {
             ) : null}
           </div>
         )}
-
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-
         {/* container for ernæringspåstander if there are all true results */}
         {buttonClicked && (
           <div
@@ -963,10 +960,8 @@ const Kategori1 = () => {
             ) : null}
           </div>
         )}
-
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-
         {/* container for Helsepåstander results  */}
         {showHelsepåstander && (
           <div
@@ -1013,40 +1008,39 @@ const Kategori1 = () => {
             ) : null}
           </div>
         )}
-
-        {/*  conditional rendering for the buttons using showButtons state */}
+        {/* Spacer */}
+        <div style={{ padding: "5px" }}></div>
+        {/* conditional rendering for the buttons using showButtons state */}
         {showButtons && (
-          <>
-            {/* Spacer */}
-            <div style={{ padding: "5px" }}></div>
+          <div className="d-flex justify-content-between">
             {/* Save button */}
             <button
               className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
-              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>
+              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
               Lagre produkt
             </button>
 
             {/* Share button */}
             <button
               className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
-              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>
+              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
               Del produkt
             </button>
 
-            {/* add a new product button */}
+            {/* Add a new product button */}
             <button
               className="btn btn-secondary"
               onClick={() => window.location.reload()}
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
-              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>
+              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>{" "}
               Legg til et nytt produkt
             </button>
-          </>
+          </div>
         )}
       </div>
     </div>
