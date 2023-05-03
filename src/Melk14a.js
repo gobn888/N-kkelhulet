@@ -1,28 +1,71 @@
 import React from "react";
-import { useState } from "react";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react"; // import the useState and useeffect hook.
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
 import { faBan } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Tooltip from "@mui/material/Tooltip";
-import keyholeLgog from "./circle-keyhole-logo.png";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
-import Select from "react-select";
+import { faSave, faShare, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
+import Tooltip from "@mui/material/Tooltip"; // import Tooltip component.
+import keyholeLgog from "./circle-keyhole-logo.png"; // import an image
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons"; // import an icon
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons"; // import an icon
+import Select from "react-select"; // import Select component
 
 const Melk14a = () => {
   // State variables for showing results and empty result message
-  const [showResults, setShowResults] = useState("");
-  const [showEmptyResult, setShowEmptyResult] = useState("");
+  const [showNokkelhulletResults, setShowNokkelhulletResults] = useState(null);
+  const [showErnaeringsResults, setShowErnaeringsResults] = useState(null);
+  const [showHelsepåstander, setShowHelsepåstander] = useState(null);
+  const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
-  // Define functions to handle clicks on info tooltip
-  const [info, setInfo] = useState("");
-  // Handler for showing info tooltip
-  const onClickInfo = () => {
-    setInfo(true);
+  //state variable to store the user's food type selection (solid or liquid) and the low sugars claim result
+  const [foodType, setFoodType] = useState("");
+  const [lowSugars, setLowSugars] = useState(null);
+
+  //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
+  const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
+
+  // State variable for tracking if the button is clicked
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  // useEffect hook for checking the condition for the "WITH NO ADDED SUGARS" claim when button is clicked
+  useEffect(() => {
+    if (buttonClicked) {
+      if (withNoAddedSugars) {
+        setShowErnaeringsResults(true);
+      } else {
+        setShowErnaeringsResults(false);
+      }
+    }
+  }, [withNoAddedSugars, buttonClicked]);
+
+  //state for controlling the buttons' visibility
+  const [showButtons, setShowButtons] = useState(false);
+
+  // State variables to control the visibility of the information sections
+  const [infoNokkelhullet, setInfoNokkelhullet] = useState(false);
+  const [infoErnaerings, setInfoErnaerings] = useState(false);
+  const [infoHelsepåstander, setInfoHelsepåstander] = useState(false);
+
+  // Function to show an information section based on the container parameter
+  const onClickInfo = (container) => {
+    if (container === "nokkelhullet") {
+      setInfoNokkelhullet(true);
+    } else if (container === "ernaerings") {
+      setInfoErnaerings(true);
+    } else if (container === "helsepåstander") {
+      setInfoHelsepåstander(true);
+    }
   };
-  // Handler for closing info tooltip
-  const onClickClose = () => {
-    setInfo(false);
+
+  // Function to hide an information section based on the container parameter
+  const onClickClose = (container) => {
+    if (container === "nokkelhullet") {
+      setInfoNokkelhullet(false);
+    } else if (container === "ernaerings") {
+      setInfoErnaerings(false);
+    } else if (container === "helsepåstander") {
+      setInfoHelsepåstander(false);
+    }
   };
 
   // State variables for handling input fields and validation errors
@@ -50,7 +93,7 @@ const Melk14a = () => {
     salt: "",
   });
 
-  // Handler for updating nutrition state based on input field changes
+  // Handler for updating nutrition state/state variable based on input field changes/input values
   const changeHandle = (event) => {
     console.log("changeHandle ===", event.target, event.target.value);
     setNutrition({
@@ -59,10 +102,17 @@ const Melk14a = () => {
     });
   };
 
-  // Handler for submitting the form
-  const onClick = () => {
+  // define function to handle form submission
+  const onClick = (e) => {
+    e.preventDefault();
+    setButtonClicked(true);
+    setShowHelsepåstander(true);
+    setShowButtons(true);
+
     console.log("onclick ===", selectsPart, nutrition);
+
     // Check if all required fields are filled out and within valid ranges
+    // The if statement checks if all required inputs are non-empty and meet the nutritional requirements
     if (
       nutrition.fett !== "" &&
       nutrition.fett <= 5 &&
@@ -73,9 +123,9 @@ const Melk14a = () => {
       nutrition.protein !== "" &&
       nutrition.salt !== ""
     ) {
-      // Sets the state to show the nutrition results
-      setShowResults(true);
-      // Hides the empty result message
+      // If all requirements are met, display the nutrition results
+      setShowNokkelhulletResults(true);
+      // Hide any empty result messages or error messages
       setShowEmptyResult(false);
 
       // Check if the user selected "energikj" and if nutrition input lable of "energikj" is not empty
@@ -87,7 +137,7 @@ const Melk14a = () => {
       if (selectsPart === "energikcal" && nutrition.energikcal !== "") {
         setEnergikcal(false);
       }
-      // reset all nutrition input validation errors
+      // Reset all input validation errors
       setFett(false);
       setFettNull(false);
       setMettede(false);
@@ -105,7 +155,7 @@ const Melk14a = () => {
         if (nutrition.energikj === "" || nutrition.energikj < 0) {
           console.log("energikj ===", selectsPart, nutrition.energikj);
           setEnergikj(true);
-          setShowResults(false);
+          setShowNokkelhulletResults(false);
           setShowEmptyResult(true);
         } else {
           setEnergikj(false);
@@ -117,7 +167,7 @@ const Melk14a = () => {
         if (nutrition.energikcal === "" || nutrition.energikcal < 0) {
           console.log("energikcal ===", selectsPart, nutrition.energikcal);
           setEnergikcal(true);
-          setShowResults(false);
+          setShowNokkelhulletResults(false);
           setShowEmptyResult(true);
         } else {
           setEnergikcal(false);
@@ -127,21 +177,21 @@ const Melk14a = () => {
       // repeat for each nutrition value...
       if (nutrition.fett === "" || nutrition.fett < 0) {
         setFettNull(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setFettNull(false);
       }
       if (nutrition.fett > 5) {
         setFett(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
       } else {
         setFett(false);
       }
 
       if (nutrition.mettede === "" || nutrition.mettede < 0) {
         setMettede(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setMettede(false);
@@ -149,7 +199,7 @@ const Melk14a = () => {
 
       if (nutrition.karbohydrat === "" || nutrition.karbohydrat < 0) {
         setKarbohydrat(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setKarbohydrat(false);
@@ -160,7 +210,7 @@ const Melk14a = () => {
         nutrition.hvoravSukkerarter < 0
       ) {
         setHvoravSukkerarter(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setHvoravSukkerarter(false);
@@ -168,7 +218,7 @@ const Melk14a = () => {
 
       if (nutrition.kostfiber === "" || nutrition.kostfiber < 0) {
         setKostfiber(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setKostfiber(false);
@@ -176,7 +226,7 @@ const Melk14a = () => {
 
       if (nutrition.protein === "" || nutrition.protein < 0) {
         setProtein(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setProtein(false);
@@ -184,11 +234,30 @@ const Melk14a = () => {
 
       if (nutrition.salt === "" || nutrition.salt < 0) {
         setSalt(true);
-        setShowResults(false);
+        setShowNokkelhulletResults(false);
         setShowEmptyResult(true);
       } else {
         setSalt(false);
       }
+    }
+
+    // Check for the "LOW SUGARS" claim
+    if (foodType === "solid" && parseFloat(nutrition.karbohydrat) <= 5) {
+      setLowSugars(true);
+    } else if (
+      foodType === "liquid" &&
+      parseFloat(nutrition.karbohydrat) <= 2.5
+    ) {
+      setLowSugars(true);
+    } else {
+      setLowSugars(false);
+    }
+
+    // Check the condition for the "WITH NO ADDED SUGARS" nutrition claim
+    if (nutrition.hvoravSukkerarter === "0" && nutrition.karbohydrat > 0) {
+      setWithNoAddedSugars(true);
+    } else {
+      setWithNoAddedSugars(false);
     }
   };
 
@@ -207,19 +276,46 @@ const Melk14a = () => {
   // Declare a state variable for the select dropdown.
   const [selectsPart, setSelectPart] = useState("");
 
-  // A function to handle changes to the selected energy unit
+  // A function to handle changes to the select dropdown energy unit
   const handlerPart = (event) => {
     const inputVal = document.getElementsByName(event.value);
     console.log("handlerPart ===", event, nutrition, inputVal);
     setSelectPart(event.value);
   };
 
+  //create an array of food types to select from
+  const foodTypes = [
+    {
+      value: "solid",
+      label: "Fast form",
+    },
+    {
+      value: "liquid",
+      label: "Flytende form",
+    },
+  ];
+
   return (
     <div className="row">
-      <h5>Porsjon (gram) 100</h5>
-
       {/* This div creates a column layout for the left side of the table */}
       <div className="col-md-6">
+        {/* the selector (dropdown menu) for choosing the food type. */}
+        <div className="form-group">
+          <label htmlFor="foodType">Velg type matvare:</label>
+          <Select
+            className="form-control"
+            id="foodType"
+            options={foodTypes}
+            onChange={(e) => setFoodType(e.value)} // update the onFoodTypeChange function to directly set the food type state
+            placeholder="Velg type matvare"
+          />
+        </div>
+
+        <h5>
+          Næringsinnhold per 100{" "}
+          {foodType === "solid" ? "g" : foodType === "liquid" ? "ml" : "g/ml"}
+        </h5>
+
         {/* This div adds a light background color to the table */}
         <div className="bg-light">
           {/* This table shows the nutritional information */}
@@ -543,28 +639,33 @@ const Melk14a = () => {
       </div>
 
       <div className="col-md-6">
-        {/* If showResults is true, display the container with class "nøkkelhullet-food-result-container" */}
-        {showResults ? (
+        {/* positive results nøkkelhullet container" */}
+        {showNokkelhulletResults ? (
           <div className="container nøkkelhullet-food-result-container">
+            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
             <img
               src={keyholeLgog}
               className="keyhole-logo img-fluid"
               alt="keyhole logo"
             />
+            {/* A heading with text "Nøkkelhullet" */}
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
                 <p>Produktet innfrir Nøkkelhullet. </p>
               </div>
               <div className="col-md-2">
+                {/* FontAwesome icon with event listener to show the "Nøkkelhullet" information section */}
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
-                  onClick={onClickInfo}
+                  onClick={() => onClickInfo("nokkelhullet")}
                 />
               </div>
             </div>
-            {info ? (
+
+            {infoNokkelhullet ? (
+              // Information section for "Nøkkelhullet"
               <div className="container info-div row">
                 <div className="col-md-10">
                   {/* A paragraph with a link to Lovdata's "Forskrift om frivillig merking a nœringsmidler med Nokkellhullet" */}
@@ -582,19 +683,19 @@ const Melk14a = () => {
                   </p>
                 </div>
                 <div className="col-md-2">
-                  {/* An icon button with class "x-button" that triggers the onClickClose function when clicked */}
+                  {/* FontAwesome icon with event listener to hide the "Nøkkelhullet" information section */}
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("nokkelhullet")}
                   />
                 </div>
               </div>
             ) : null}
           </div>
         ) : null}
-        {/* If showResults is false, display the container with class "nøkkelhullet-food-negResult-container" */}
-        {showResults === false && (
+        {/*Negative results nøkkelhullet container" */}
+        {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
             <h5>Nøkkelhullet</h5>
             <div className="row">
@@ -610,11 +711,12 @@ const Melk14a = () => {
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
-                  onClick={onClickInfo}
+                  onClick={() => onClickInfo("nokkelhullet")}
                 />
               </div>
             </div>
-            {info ? (
+            {infoNokkelhullet ? (
+              // Information section for "Nøkkelhullet"
               <div className="container info-div row">
                 <div className="col-md-10">
                   <p>
@@ -633,55 +735,123 @@ const Melk14a = () => {
                   <FontAwesomeIcon
                     className="x-button"
                     icon={faXmarkCircle}
-                    onClick={onClickClose}
+                    onClick={() => onClickClose("nokkelhullet")}
                   />
                 </div>
               </div>
             ) : null}
           </div>
         )}
-
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-
-        {/* Display results for ernæringspåstander if showResults is true */}
-        {showResults ? (
+        {/* container for ernæringspåstander if there are all true results */}
+        {buttonClicked && (
           <div
-            className="container ernæringspåstander-food-result-container"
-            style={{ background: "#f2f0b5" }}
+            className={
+              lowSugars && withNoAddedSugars
+                ? "container ernæringspåstander-food-result-container-all"
+                : !lowSugars && !withNoAddedSugars
+                ? "container ernæringspåstander-food-result-container-none"
+                : "container ernæringspåstander-food-result-container-some"
+            }
           >
             <h5>Ernæringspåstander</h5>
             <div className="row">
               <div className="col-md-10">
-                <p>Under utvikling. </p>
-              </div>
-              <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
-              </div>
-            </div>
-          </div>
-        ) : null}
+                {/* Low sugars */}
+                {lowSugars ? (
+                  <div>
+                    <p>** Lavt sukkerinnhold:</p>
+                    <p>
+                      Dette produktet inneholder høyst 5 g sukkerarter per 100 g
+                      for næringsmidler i fast form, eller høyst 2,5 g
+                      sukkerarter per 100 ml for næringsmidler i flytende form
+                      og oppfyller kravet for "Lavt sukkerinnhold".
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      ** Produktet innfrir ikke "Lavt sukkerinnhold" påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        For faste næringsmidler, sukkerinnholdet må være høyst 5
+                        g per 100 g.
+                      </li>
+                      <li>
+                        For flytende næringsmidler, sukkerinnholdet må være
+                        høyst 2,5 g per 100 ml.
+                      </li>
+                    </ul>
+                  </div>
+                )}
 
-        {/* Display results for ernæringspåstander if showResults is false */}
-        {showResults === false && (
-          <div className="container ernæringspåstander-food-negResult-container">
-            <h5>Ernæringspåstander</h5>
-            <div className="row">
-              <div className="col-md-10">
-                <p>Under utvikling. </p>
+                {/* No added sugars */}
+                {withNoAddedSugars ? (
+                  <div>
+                    <p>** Uten tilsatt sukker:</p>
+                    <p>
+                      Dette produktet er ikke tilsatt monosakkarider,
+                      disakkarider eller andre næringsmidler på grunn av deres
+                      søtende egenskaper og oppfyller kravet for "Uten tilsatt
+                      sukker".
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      ** Produktet innfrir ikke "Uten tilsatt sukker" påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        Produktet må ikke være tilsatt monosakkarider,
+                        disakkarider eller andre næringsmidler på grunn av deres
+                        søtende egenskaper.
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("ernaerings")}
+                />
               </div>
             </div>
+            {infoErnaerings ? (
+              // Information section for "Ernæringspåstander"
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={() => onClickClose("ernaerings")}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
-
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-
-        {/* Display results for helsepåstander if showResults is true */}
-        {showResults ? (
+        {/* container for Helsepåstander results  */}
+        {showHelsepåstander && (
           <div
             className="container helsepåstander-food-result-container"
             style={{ background: "#f2f0b5" }}
@@ -692,89 +862,73 @@ const Melk14a = () => {
                 <p>Under utvikling. </p>
               </div>
               <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
+                <FontAwesomeIcon
+                  className="info-button"
+                  icon={faCircleInfo}
+                  onClick={() => onClickInfo("helsepåstander")}
+                />
               </div>
             </div>
-          </div>
-        ) : null}
-
-        {/* Display results for helsepåstander if showResults is false */}
-        {showResults === false && (
-          <div className="container helsepåstander-food-negResult-container">
-            <h5>Helsepåstander</h5>
-            <div className="row">
-              <div className="col-md-10">
-                <p>Under utvikling. </p>
+            {infoHelsepåstander ? (
+              // Information section for "Helsepåstander"
+              <div className="container info-div row">
+                <div className="col-md-10">
+                  <p>
+                    Les mer om hvordan oppnå kriteriene på Lovdata’s Forskrift
+                    om ernærings- og helsepåstander om næringsmidler:
+                    <a
+                      href="https://lovdata.no/dokument/SF/forskrift/2010-02-17-187/KAPITTEL_1#KAPITTEL_1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      lovdata.no
+                    </a>
+                  </p>
+                </div>
+                <div className="col-md-2">
+                  <FontAwesomeIcon
+                    className="x-button"
+                    icon={faXmarkCircle}
+                    onClick={() => onClickClose("helsepåstander")}
+                  />
+                </div>
               </div>
-              <div className="col-md-2">
-                <FontAwesomeIcon className="info-button" icon={faCircleInfo} />
-              </div>
-            </div>
+            ) : null}
           </div>
         )}
-        {/* If showResults is true, display the button */}
-        {showResults ? (
-          <>
-            {/* Spacer */}
-            <div style={{ padding: "5px" }}></div>
+        {/* Spacer */}
+        <div style={{ padding: "15px" }}></div>
+        {/* conditional rendering for the buttons using showButtons state */}
+        {showButtons && (
+          <div className="d-flex justify-content-between">
             {/* Save button */}
             <button
               className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
+              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
               Lagre produkt
             </button>
 
             {/* Share button */}
             <button
               className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
+              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
               Del produkt
             </button>
 
-            {/* add a new product button */}
+            {/* Add a new product button */}
             <button
               className="btn btn-secondary"
               onClick={() => window.location.reload()}
-              style={{ marginLeft: "10px" }}
+              style={{ width: "200px", marginRight: "5px" }}
             >
+              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>{" "}
               Legg til et nytt produkt
             </button>
-          </>
-        ) : null}
-
-        {/* If showResults is false, display the button */}
-        {showResults === false && (
-          <>
-            {/* Spacer */}
-            <div style={{ padding: "5px" }}></div>
-
-            {/* Save button */}
-            <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
-            >
-              Lagre produkt
-            </button>
-
-            {/* Share button */}
-            <button
-              className="btn btn-secondary"
-              style={{ marginLeft: "10px" }}
-            >
-              Del produkt
-            </button>
-
-            {/* add a new product button */}
-            <button
-              className="btn btn-secondary"
-              onClick={() => window.location.reload()}
-              style={{ marginLeft: "10px" }}
-            >
-              Legg til et nytt produkt
-            </button>
-          </>
+          </div>
         )}
       </div>
     </div>
