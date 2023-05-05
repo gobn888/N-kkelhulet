@@ -933,7 +933,7 @@ const Kategori16 = () => {
           <div className="d-flex justify-content-between">
             {/* Save button */}
             <button
-              className="btn btn-secondary"
+              className="btn btn-primary"
               style={{ width: "200px", marginRight: "5px" }}
             >
               <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
@@ -942,7 +942,7 @@ const Kategori16 = () => {
 
             {/* Share button */}
             <button
-              className="btn btn-secondary"
+              className="btn btn-primary"
               style={{ width: "200px", marginRight: "5px" }}
             >
               <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
@@ -951,7 +951,7 @@ const Kategori16 = () => {
 
             {/* Add a new product button */}
             <button
-              className="btn btn-secondary"
+              className="btn btn-primary"
               onClick={() => window.location.reload()}
               style={{ width: "200px", marginRight: "5px" }}
             >
