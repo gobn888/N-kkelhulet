@@ -647,7 +647,10 @@ const Kategori21 = () => {
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
-                <p>Det er ingen betingelser for å møte Nøkkelhullet. </p>
+                <p>
+                  Det er ingen vilkår som gjelder for å innfri nøkkelhullet for
+                  denne matvaregruppen.
+                </p>
               </div>
               <div className="col-md-2">
                 <FontAwesomeIcon
@@ -694,7 +697,6 @@ const Kategori21 = () => {
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
-                <p>Produktet innfrir ikke Nøkkelhullet.</p>
                 {showEmptyResult ? (
                   <p>** Obligatoriske næringsverdier kan ikke være tomme.</p>
                 ) : null}
