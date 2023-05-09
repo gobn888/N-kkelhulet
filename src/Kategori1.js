@@ -26,19 +26,30 @@ const Kategori1 = () => {
   //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
   const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
 
+  //state variable to track whether the product meets the "CONTAINS NATURALLY OCCURRING SUGARS" claim or not
+  const [
+    containsNaturallyOccurringSugars,
+    setContainsNaturallyOccurringSugars,
+  ] = useState(false);
+
   // State variable for tracking if the button is clicked
   const [buttonClicked, setButtonClicked] = useState(false);
 
   // useEffect hook for checking the condition for the "WITH NO ADDED SUGARS" claim when button is clicked
   useEffect(() => {
     if (buttonClicked) {
-      if (withNoAddedSugars) {
+      if (lowSugars && withNoAddedSugars && containsNaturallyOccurringSugars) {
         setShowErnaeringsResults(true);
       } else {
         setShowErnaeringsResults(false);
       }
     }
-  }, [withNoAddedSugars, buttonClicked]);
+  }, [
+    lowSugars,
+    withNoAddedSugars,
+    containsNaturallyOccurringSugars,
+    buttonClicked,
+  ]);
 
   //state for controlling the buttons' visibility
   const [showButtons, setShowButtons] = useState(false);
@@ -79,6 +90,7 @@ const Kategori1 = () => {
   const [mettede, setMettede] = useState(false);
   const [mettedeNull, setMettedeNull] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
+  const [naturligSukker, setNaturligSukker] = useState(false);
 
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
   const [hvoravSukkerarterNull, setHvoravSukkerarterNull] = useState(false);
@@ -94,6 +106,7 @@ const Kategori1 = () => {
     fett: "",
     mettede: "",
     karbohydrat: "",
+    naturligSukker: "",
     hvoravSukkerarter: "",
     kostfiber: "",
     protein: "",
@@ -126,6 +139,7 @@ const Kategori1 = () => {
       nutrition.mettede !== "" &&
       nutrition.mettede <= 0.6 &&
       nutrition.karbohydrat !== "" &&
+      nutrition.naturligSukker !== "" &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.hvoravSukkerarter <= 1 &&
       nutrition.kostfiber !== "" &&
@@ -154,7 +168,7 @@ const Kategori1 = () => {
       setMettede(false);
       setMettedeNull(false);
       setKarbohydrat(false);
-
+      setNaturligSukker(false);
       setHvoravSukkerarter(false);
       setHvoravSukkerarterNull(false);
       setKostfiber(false);
@@ -226,6 +240,14 @@ const Kategori1 = () => {
         setKarbohydrat(false);
       }
 
+      if (nutrition.naturligSukker === "" || nutrition.naturligSukker < 0) {
+        setNaturligSukker(true);
+        setShowNokkelhulletResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setNaturligSukker(false);
+      }
+
       // Check if the 'hvoravSukkerarter' input is missing, negative or above the maximum allowed value (1),
       // and display an error message if necessary
       if (
@@ -293,6 +315,13 @@ const Kategori1 = () => {
       setWithNoAddedSugars(true);
     } else {
       setWithNoAddedSugars(false);
+    }
+
+    // Check the condition for the "CONTAINS NATURALLY OCCURRING SUGARS" nutrition claim
+    if (nutrition.hvoravSukkerarter === "0" && karbohydrat === naturligSukker) {
+      setContainsNaturallyOccurringSugars(true);
+    } else {
+      setContainsNaturallyOccurringSugars(false);
     }
   };
 
@@ -546,6 +575,40 @@ const Kategori1 = () => {
                     step="any"
                     name="karbohydrat"
                     value={nutrition.karbohydrat}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows the natural occuring sugars content */}
+              <tr className={naturligSukker ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {/* If the naturligSukker value is missing, display an exclamation icon with a tooltip */}
+                  {naturligSukker ? (
+                    <Tooltip
+                      title="Mangler verdi i naturligSukker parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  • Naturlig innhold av sukker (g)
+                </th>
+                {/* Input field for Naturlig innhold av sukker  value */}
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="naturligSukker"
+                    value={nutrition.naturligSukker}
                     onChange={changeHandle}
                     className="form-control"
                   ></input>
@@ -861,13 +924,16 @@ const Kategori1 = () => {
         )}
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
+
         {/* container for ernæringspåstander if there are all true results */}
         {buttonClicked && (
           <div
             className={
-              lowSugars && withNoAddedSugars
+              lowSugars && withNoAddedSugars && containsNaturallyOccurringSugars
                 ? "container ernæringspåstander-food-result-container-all"
-                : !lowSugars && !withNoAddedSugars
+                : !lowSugars &&
+                  !withNoAddedSugars &&
+                  !containsNaturallyOccurringSugars
                 ? "container ernæringspåstander-food-result-container-none"
                 : "container ernæringspåstander-food-result-container-some"
             }
@@ -925,6 +991,30 @@ const Kategori1 = () => {
                         Produktet må ikke være tilsatt monosakkarider,
                         disakkarider eller andre næringsmidler på grunn av deres
                         søtende egenskaper.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {/* Contains naturally occurring sugars */}
+                {containsNaturallyOccurringSugars ? (
+                  <div>
+                    <p>** Med et naturlig innhold av sukker:</p>
+                    <p>
+                      Dette produktet inneholder naturlig forekommende sukker og
+                      oppfyller kravet for "Med et naturlig innhold av sukker".
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      ** Produktet innfrir ikke "Med et naturlig innhold av
+                      sukker" påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        Produktet må inneholde naturlig forekommende sukker og
+                        ikke ha tilsatt sukker.
                       </li>
                     </ul>
                   </div>
