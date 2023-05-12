@@ -23,22 +23,30 @@ const Kategori1 = () => {
   const [foodType, setFoodType] = useState("");
   const [lowSugars, setLowSugars] = useState(null);
 
+  //state variable for SugarsFree claim
+  const [sugarsFree, setSugarsFree] = useState(null);
+
   //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
-  const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
+  const [withNoAddedSugars, setWithNoAddedSugars] = useState(null);
 
   //state variable to track whether the product meets the "CONTAINS NATURALLY OCCURRING SUGARS" claim or not
   const [
     containsNaturallyOccurringSugars,
     setContainsNaturallyOccurringSugars,
-  ] = useState(false);
+  ] = useState(null);
 
   // State variable for tracking if the button is clicked
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  // useEffect hook for checking the condition for the "WITH NO ADDED SUGARS" claim when button is clicked
+  // useEffect hook for checking the conditions for the nutrition claims when button is clicked
   useEffect(() => {
     if (buttonClicked) {
-      if (lowSugars && withNoAddedSugars && containsNaturallyOccurringSugars) {
+      if (
+        lowSugars &&
+        withNoAddedSugars &&
+        containsNaturallyOccurringSugars &&
+        sugarsFree
+      ) {
         setShowErnaeringsResults(true);
       } else {
         setShowErnaeringsResults(false);
@@ -49,6 +57,7 @@ const Kategori1 = () => {
     withNoAddedSugars,
     containsNaturallyOccurringSugars,
     buttonClicked,
+    sugarsFree,
   ]);
 
   //state for controlling the buttons' visibility
@@ -308,6 +317,18 @@ const Kategori1 = () => {
       setLowSugars(true);
     } else {
       setLowSugars(false);
+    }
+
+    // Check for the "SUGARS-FREE" claim
+    if (foodType === "solid" && parseFloat(nutrition.karbohydrat) <= 0.5) {
+      setSugarsFree(true);
+    } else if (
+      foodType === "liquid" &&
+      parseFloat(nutrition.karbohydrat) <= 0.5
+    ) {
+      setSugarsFree(true);
+    } else {
+      setSugarsFree(false);
     }
 
     // Check the condition for the "WITH NO ADDED SUGARS" nutrition claim
@@ -929,9 +950,13 @@ const Kategori1 = () => {
         {buttonClicked && (
           <div
             className={
-              lowSugars && withNoAddedSugars && containsNaturallyOccurringSugars
+              lowSugars &&
+              sugarsFree &&
+              withNoAddedSugars &&
+              containsNaturallyOccurringSugars
                 ? "container ernæringspåstander-food-result-container-all"
                 : !lowSugars &&
+                  !sugarsFree &&
                   !withNoAddedSugars &&
                   !containsNaturallyOccurringSugars
                 ? "container ernæringspåstander-food-result-container-none"
@@ -970,7 +995,28 @@ const Kategori1 = () => {
                   </div>
                 )}
 
-                {/* No added sugars */}
+                {/* "SUGARS-FREE" claim */}
+                {sugarsFree ? (
+                  <div>
+                    <p>** Sukkerfri:</p>
+                    <p>
+                      Dette produktet oppfyller kravet for "Sukkerfri" ved å
+                      inneholde ikke mer enn 0,5 g sukkerarter per 100 g/ml.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>** Produktet innfrir ikke "Sukkerfri" påstanden.</p>
+                    <ul>
+                      <li>
+                        Produktet må inneholde høyst 0,5 g sukkerarter per 100
+                        g/ml for å oppfylle "Sukkerfri" påstanden.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {/* with No added sugars */}
                 {withNoAddedSugars ? (
                   <div>
                     <p>** Uten tilsatt sukker:</p>
@@ -1055,6 +1101,7 @@ const Kategori1 = () => {
             ) : null}
           </div>
         )}
+
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
         {/* container for Helsepåstander results  */}
