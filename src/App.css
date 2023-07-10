@@ -55,16 +55,19 @@
   padding: 1rem;
 }
 
+/* Styles for the "Ernæringspåstander" container when all claims are true */
 .ernæringspåstander-food-result-container-all {
   background: #daecd8; /* green */
   padding: 1rem;
 }
 
+/* Styles for the "Ernæringspåstander" container when at least one claim is true */
 .ernæringspåstander-food-result-container-some {
   background: #f5c5a5; /* orange */
   padding: 1rem;
 }
 
+/* Styles for the "Ernæringspåstander" container when all claims are false */
 .ernæringspåstander-food-result-container-none {
   background: #f3b7b7; /* red */
   padding: 1rem;

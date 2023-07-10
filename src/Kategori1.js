@@ -15,7 +15,7 @@ const Kategori1 = () => {
   // State variables for showing results and empty result message
 
   const [showNokkelhulletResults, setShowNokkelhulletResults] = useState(null);
-  const [showErnaeringsResults, setShowErnaeringsResults] = useState(null);
+  const [showErnaeringsResults, setShowErnaeringsResults] = useState("");
   const [showHelsepåstander, setShowHelsepåstander] = useState(null);
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
@@ -47,17 +47,24 @@ const Kategori1 = () => {
         containsNaturallyOccurringSugars &&
         sugarsFree
       ) {
-        setShowErnaeringsResults(true);
+        setShowErnaeringsResults("all");
+      } else if (
+        !lowSugars &&
+        !withNoAddedSugars &&
+        !containsNaturallyOccurringSugars &&
+        !sugarsFree
+      ) {
+        setShowErnaeringsResults("none");
       } else {
-        setShowErnaeringsResults(false);
+        setShowErnaeringsResults("some");
       }
     }
   }, [
     lowSugars,
     withNoAddedSugars,
     containsNaturallyOccurringSugars,
-    buttonClicked,
     sugarsFree,
+    buttonClicked,
   ]);
 
   //state for controlling the buttons' visibility
@@ -339,7 +346,7 @@ const Kategori1 = () => {
     }
 
     // Check the condition for the "CONTAINS NATURALLY OCCURRING SUGARS" nutrition claim
-    if (nutrition.hvoravSukkerarter === "0" && karbohydrat === naturligSukker) {
+    if (nutrition.hvoravSukkerarter === "0" && nutrition.karbohydrat > 0) {
       setContainsNaturallyOccurringSugars(true);
     } else {
       setContainsNaturallyOccurringSugars(false);
@@ -349,8 +356,8 @@ const Kategori1 = () => {
   // create an array of energy units to select from
   const selectUnit = [
     {
-      value: "energikj",
-      label: "(kj)",
+      value: "energikj", // This is the value that will be used in the code
+      label: "(kj)", // This is the value that will be displayed to the user in the dropdown
     },
     {
       value: "energikcal",
@@ -363,9 +370,9 @@ const Kategori1 = () => {
 
   // A function to handle changes to the select dropdown energy unit
   const handlerPart = (event) => {
-    const inputVal = document.getElementsByName(event.value);
-    console.log("handlerPart ===", event, nutrition, inputVal);
-    setSelectPart(event.value);
+    const inputVal = document.getElementsByName(event.value); // Get the input elements with the name of the selected option
+    console.log("handlerPart ===", event, nutrition, inputVal); // Log the selected option, current nutrition state, and input elements to the console
+    setSelectPart(event.value); // Update the selectsPart state with the value of the selected option
   };
 
   //create an array of food types to select from
@@ -946,22 +953,10 @@ const Kategori1 = () => {
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
 
-        {/* container for ernæringspåstander if there are all true results */}
+        {/* container for ernæringspåstander results */}
         {buttonClicked && (
           <div
-            className={
-              lowSugars &&
-              sugarsFree &&
-              withNoAddedSugars &&
-              containsNaturallyOccurringSugars
-                ? "container ernæringspåstander-food-result-container-all"
-                : !lowSugars &&
-                  !sugarsFree &&
-                  !withNoAddedSugars &&
-                  !containsNaturallyOccurringSugars
-                ? "container ernæringspåstander-food-result-container-none"
-                : "container ernæringspåstander-food-result-container-some"
-            }
+            className={`container ernæringspåstander-food-result-container-${showErnaeringsResults}`}
           >
             <h5>Ernæringspåstander</h5>
             <div className="row">
@@ -1158,18 +1153,18 @@ const Kategori1 = () => {
             {/* Save button */}
             <button
               className="btn btn-primary"
-              style={{ width: "200px", marginRight: "5px" }}
+              style={{ width: "200px", minHeight: "44px", marginRight: "5px" }}
             >
-              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
+              <FontAwesomeIcon icon={faSave} style={{ marginRight: "5px" }} />
               Lagre produkt
             </button>
 
             {/* Share button */}
             <button
               className="btn btn-primary"
-              style={{ width: "200px", marginRight: "5px" }}
+              style={{ width: "200px", minHeight: "44px", marginRight: "5px" }}
             >
-              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
+              <FontAwesomeIcon icon={faShare} style={{ marginRight: "5px" }} />
               Del produkt
             </button>
 
@@ -1177,9 +1172,9 @@ const Kategori1 = () => {
             <button
               className="btn btn-primary"
               onClick={() => window.location.reload()}
-              style={{ width: "200px", marginRight: "5px" }}
+              style={{ width: "200px", minHeight: "44px", marginRight: "5px" }}
             >
-              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>{" "}
+              <FontAwesomeIcon icon={faPlus} style={{ marginRight: "5px" }} />
               Legg til et nytt produkt
             </button>
           </div>
