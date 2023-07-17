@@ -964,26 +964,29 @@ const Kategori1 = () => {
                 {/* Low sugars */}
                 {lowSugars ? (
                   <div>
-                    <p>** Lavt sukkerinnhold:</p>
+                    <p>
+                      ** Lavt sukkerinnhold: Produktet oppfyller kravet for
+                      "Lavt sukkerinnhold" påstanden.
+                    </p>
                     <p>
                       Dette produktet inneholder høyst 5 g sukkerarter per 100 g
                       for næringsmidler i fast form, eller høyst 2,5 g
-                      sukkerarter per 100 ml for næringsmidler i flytende form
-                      og oppfyller kravet for "Lavt sukkerinnhold".
+                      sukkerarter per 100 ml for næringsmidler i flytende form.
                     </p>
                   </div>
                 ) : (
                   <div>
                     <p>
-                      ** Produktet innfrir ikke "Lavt sukkerinnhold" påstanden.
+                      ** Lavt sukkerinnhold: Produktet oppfyller ikke kravet for
+                      "Lavt sukkerinnhold" påstanden.
                     </p>
                     <ul>
                       <li>
-                        For faste næringsmidler, sukkerinnholdet må være høyst 5
+                        For faste næringsmidler, må sukkerinnholdet være høyst 5
                         g per 100 g.
                       </li>
                       <li>
-                        For flytende næringsmidler, sukkerinnholdet må være
+                        For flytende næringsmidler, må sukkerinnholdet være
                         høyst 2,5 g per 100 ml.
                       </li>
                     </ul>
@@ -993,19 +996,25 @@ const Kategori1 = () => {
                 {/* "SUGARS-FREE" claim */}
                 {sugarsFree ? (
                   <div>
-                    <p>** Sukkerfri:</p>
                     <p>
-                      Dette produktet oppfyller kravet for "Sukkerfri" ved å
-                      inneholde ikke mer enn 0,5 g sukkerarter per 100 g/ml.
+                      ** Sukkerfri: Produktet oppfyller kravet for "Sukkerfri"
+                      påstanden.
+                    </p>
+                    <p>
+                      Dette produktet inneholder ikke mer enn 0,5 g sukkerarter
+                      per 100 g/ml.
                     </p>
                   </div>
                 ) : (
                   <div>
-                    <p>** Produktet innfrir ikke "Sukkerfri" påstanden.</p>
+                    <p>
+                      ** Sukkerfri: Produktet oppfyller ikke kravet for
+                      "Sukkerfri" påstanden.
+                    </p>
                     <ul>
                       <li>
                         Produktet må inneholde høyst 0,5 g sukkerarter per 100
-                        g/ml for å oppfylle "Sukkerfri" påstanden.
+                        g/ml.
                       </li>
                     </ul>
                   </div>
@@ -1014,18 +1023,21 @@ const Kategori1 = () => {
                 {/* with No added sugars */}
                 {withNoAddedSugars ? (
                   <div>
-                    <p>** Uten tilsatt sukker:</p>
+                    <p>
+                      ** Uten tilsatt sukker: Produktet oppfyller kravet for
+                      "Uten tilsatt sukker" påstanden.
+                    </p>
                     <p>
                       Dette produktet er ikke tilsatt monosakkarider,
                       disakkarider eller andre næringsmidler på grunn av deres
-                      søtende egenskaper og oppfyller kravet for "Uten tilsatt
-                      sukker".
+                      søtende egenskaper.
                     </p>
                   </div>
                 ) : (
                   <div>
                     <p>
-                      ** Produktet innfrir ikke "Uten tilsatt sukker" påstanden.
+                      ** Uten tilsatt sukker: Produktet oppfyller ikke kravet
+                      for "Uten tilsatt sukker" påstanden.
                     </p>
                     <ul>
                       <li>
@@ -1040,17 +1052,20 @@ const Kategori1 = () => {
                 {/* Contains naturally occurring sugars */}
                 {containsNaturallyOccurringSugars ? (
                   <div>
-                    <p>** Med et naturlig innhold av sukker:</p>
                     <p>
-                      Dette produktet inneholder naturlig forekommende sukker og
-                      oppfyller kravet for "Med et naturlig innhold av sukker".
+                      ** Med et naturlig innhold av sukker: Produktet oppfyller
+                      kravet for "Med et naturlig innhold av sukker" påstanden.
+                    </p>
+                    <p>
+                      Dette produktet inneholder naturlig forekommende sukker.
                     </p>
                   </div>
                 ) : (
                   <div>
                     <p>
-                      ** Produktet innfrir ikke "Med et naturlig innhold av
-                      sukker" påstanden.
+                      ** Med et naturlig innhold av sukker: Produktet oppfyller
+                      ikke kravet for "Med et naturlig innhold av sukker"
+                      påstanden.
                     </p>
                     <ul>
                       <li>
