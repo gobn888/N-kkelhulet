@@ -1166,22 +1166,111 @@ const Kategori1 = () => {
         {showButtons && (
           <div className="d-flex justify-content-between">
             {/* Save button */}
-            <button
-              className="btn btn-primary"
-              style={{ width: "200px", minHeight: "44px", marginRight: "5px" }}
-            >
-              <FontAwesomeIcon icon={faSave} style={{ marginRight: "5px" }} />
-              Lagre produkt
-            </button>
+            <div className="dropdown">
+              <button
+                className="btn btn-primary dropdown-toggle"
+                type="button"
+                style={{
+                  width: "200px",
+                  minHeight: "44px",
+                  marginRight: "5px",
+                }}
+                id="lagreProduktDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <FontAwesomeIcon icon={faSave} style={{ marginRight: "5px" }} />
+                Lagre produkt
+              </button>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="lagreProduktDropdown"
+              >
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Lagre som PDF
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Lagre som bilde
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Lagre i nettsky
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Lagre i profilen
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
 
             {/* Share button */}
-            <button
-              className="btn btn-primary"
-              style={{ width: "200px", minHeight: "44px", marginRight: "5px" }}
-            >
-              <FontAwesomeIcon icon={faShare} style={{ marginRight: "5px" }} />
-              Del produkt
-            </button>
+            <div className="dropdown">
+              <button
+                className="btn btn-primary dropdown-toggle"
+                type="button"
+                style={{
+                  width: "200px",
+                  minHeight: "44px",
+                  marginRight: "5px",
+                }}
+                id="delProduktDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <FontAwesomeIcon
+                  icon={faShare}
+                  style={{ marginRight: "5px" }}
+                />
+                Del produkt
+              </button>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="delProduktDropdown"
+              >
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Send på e-post
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Del på samarbeidsplattformer
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Kopier lenke
+                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
 
             {/* Add a new product button */}
             <button
