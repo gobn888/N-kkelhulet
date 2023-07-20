@@ -1169,28 +1169,31 @@ const Kategori1 = () => {
           <div className="button-container">
             {/* Save button */}
             <div className="button-wrapper">
+              {/* Dropdown menu for saving food product in various formats */}
               <div className="dropdown">
                 <button
                   className="btn btn-primary dropdown-toggle custom-button"
                   type="button"
                   id="lagreProduktDropdown"
-                  data-bs-toggle="dropdown"
+                  data-bs-toggle="dropdown" // Controls the presentation of the dropdown menu
                 >
                   <FontAwesomeIcon
                     icon={faSave}
-                    className="icon-right-spacing"
+                    className="icon-right-spacing" // Allows space between the icon and the text
                   />
                   Lagre produkt
                 </button>
                 <ul
                   className="dropdown-menu"
-                  aria-labelledby="lagreProduktDropdown"
+                  aria-labelledby="lagreProduktDropdown" // Associates this menu with its button
                 >
+                  {/* Each list item represents a disabled save option */}
+                  {/* aria-describedby provides extra context for accessibility tools */}
                   <li>
                     <button
                       className="dropdown-item"
                       disabled
-                      aria-describedby="pdfDesc"
+                      aria-describedby="pdfDesc" // Disabled dropdown items with aria-describedby property for descriptive text
                     >
                       Lagre som PDF
                     </button>
@@ -1249,7 +1252,6 @@ const Kategori1 = () => {
                 </ul>
               </div>
             </div>
-
             {/* Share button */}
             <div className="button-wrapper">
               <div className="dropdown">
@@ -1317,8 +1319,7 @@ const Kategori1 = () => {
                 </ul>
               </div>
             </div>
-
-            {/* Add a new product button */}
+            {/* A simple button for adding a new product, which reloads the page on click */}
             <div className="button-wrapper">
               <button
                 className="btn btn-primary custom-button"

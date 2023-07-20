@@ -193,15 +193,19 @@ button:focus {
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* You can adjust the color and size of the focus ring */
 }
 
+/* Container for all buttons.Uses flexbox for layout and spaces the elements evenly */
 .button-container {
   display: flex;
   justify-content: space-between;
 }
 
+/* Sets the width for each button's wrapper.This way each button has the same width and aligns correctly */
 .button-wrapper {
   width: 200px;
 }
 
+/* Button styling. 
+   Buttons are made to take up full width, a fixed height and centered contents */
 .custom-button {
   width: 100%;
   height: 44px; /* Set an explicit height*/
@@ -210,6 +214,7 @@ button:focus {
   justify-content: center; /* Center contents horizontally */
 }
 
+/* Adds a little space after each icon to separate it from the text */
 .icon-right-spacing {
   margin-right: 5px;
 }
