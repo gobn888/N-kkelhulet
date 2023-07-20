@@ -1160,127 +1160,174 @@ const Kategori1 = () => {
             ) : null}
           </div>
         )}
+
         {/* Spacer */}
         <div style={{ padding: "15px" }}></div>
+
         {/* conditional rendering for the buttons using showButtons state */}
         {showButtons && (
-          <div className="d-flex justify-content-between">
+          <div className="button-container">
             {/* Save button */}
-            <div className="dropdown">
-              <button
-                className="btn btn-primary dropdown-toggle"
-                type="button"
-                style={{
-                  width: "200px",
-                  minHeight: "44px",
-                  marginRight: "5px",
-                }}
-                id="lagreProduktDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <FontAwesomeIcon icon={faSave} style={{ marginRight: "5px" }} />
-                Lagre produkt
-              </button>
-              <ul
-                className="dropdown-menu"
-                aria-labelledby="lagreProduktDropdown"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Lagre som PDF
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+            <div className="button-wrapper">
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle custom-button"
+                  type="button"
+                  id="lagreProduktDropdown"
+                  data-bs-toggle="dropdown"
+                >
+                  <FontAwesomeIcon
+                    icon={faSave}
+                    className="icon-right-spacing"
+                  />
+                  Lagre produkt
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="lagreProduktDropdown"
+                >
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="pdfDesc"
+                    >
+                      Lagre som PDF
+                    </button>
+                    <span
+                      id="pdfDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Lagre som bilde
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="bildeDesc"
+                    >
+                      Lagre som bilde
+                    </button>
+                    <span
+                      id="bildeDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Lagre i nettsky
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="nettskyDesc"
+                    >
+                      Lagre i nettsky
+                    </button>
+                    <span
+                      id="nettskyDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Lagre i profilen
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="profilenDesc"
+                    >
+                      Lagre i profilen
+                    </button>
+                    <span
+                      id="profilenDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Share button */}
-            <div className="dropdown">
-              <button
-                className="btn btn-primary dropdown-toggle"
-                type="button"
-                style={{
-                  width: "200px",
-                  minHeight: "44px",
-                  marginRight: "5px",
-                }}
-                id="delProduktDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <FontAwesomeIcon
-                  icon={faShare}
-                  style={{ marginRight: "5px" }}
-                />
-                Del produkt
-              </button>
-              <ul
-                className="dropdown-menu"
-                aria-labelledby="delProduktDropdown"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Send på e-post
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+            <div className="button-wrapper">
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle custom-button"
+                  type="button"
+                  id="delProduktDropdown"
+                  data-bs-toggle="dropdown"
+                >
+                  <FontAwesomeIcon
+                    icon={faShare}
+                    className="icon-right-spacing"
+                  />
+                  Del produkt
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="delProduktDropdown"
+                >
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="epost-description"
+                    >
+                      Send på e-post
+                    </button>
+                    <span
+                      id="epost-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Del på samarbeidsplattformer
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="samarbeidsplattformer-description"
+                    >
+                      Del på samarbeidsplattformer
+                    </button>
+                    <span
+                      id="samarbeidsplattformer-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Kopier lenke
-                    <span style={{ fontSize: "smaller", color: "gray" }}>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="lenke-description"
+                    >
+                      Kopier lenke
+                    </button>
+                    <span
+                      id="lenke-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
                       (Denne funksjonen er under utvikling)
                     </span>
-                  </a>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Add a new product button */}
-            <button
-              className="btn btn-primary"
-              onClick={() => window.location.reload()}
-              style={{ width: "200px", minHeight: "44px", marginRight: "5px" }}
-            >
-              <FontAwesomeIcon icon={faPlus} style={{ marginRight: "5px" }} />
-              Legg til et nytt produkt
-            </button>
+            <div className="button-wrapper">
+              <button
+                className="btn btn-primary custom-button"
+                onClick={() => window.location.reload()}
+              >
+                <FontAwesomeIcon icon={faPlus} className="icon-right-spacing" />
+                Legg til et nytt produkt
+              </button>
+            </div>
           </div>
         )}
       </div>
