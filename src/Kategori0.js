@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react"; // import the useState hook.
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
-import { faBan } from "@fortawesome/free-solid-svg-icons";
+
 import { faSave, faShare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
 import Tooltip from "@mui/material/Tooltip"; // import Tooltip component.
@@ -18,6 +18,9 @@ const Kategori0 = () => {
   const [showErnaeringsResults, setShowErnaeringsResults] = useState(null);
   const [showHelsepåstander, setShowHelsepåstander] = useState(null);
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
+
+  //state variable to store the user's food type selection (solid or liquid)
+  const [foodType, setFoodType] = useState("");
 
   //state for controlling the buttons' visibility
   const [showButtons, setShowButtons] = useState(false);
@@ -55,6 +58,8 @@ const Kategori0 = () => {
   const [fett, setFett] = useState(false);
   const [mettede, setMettede] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
+  const [naturligSukker, setNaturligSukker] = useState(false);
+
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
   const [protein, setProtein] = useState(false);
@@ -67,6 +72,7 @@ const Kategori0 = () => {
     fett: "",
     mettede: "",
     karbohydrat: "",
+    naturligSukker: "",
     hvoravSukkerarter: "",
     kostfiber: "",
     protein: "",
@@ -100,6 +106,7 @@ const Kategori0 = () => {
       nutrition.fett !== "" &&
       nutrition.mettede !== "" &&
       nutrition.karbohydrat !== "" &&
+      nutrition.naturligSukker !== "" &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
@@ -127,6 +134,7 @@ const Kategori0 = () => {
       setFett(false);
       setMettede(false);
       setKarbohydrat(false);
+      setNaturligSukker(false);
       setHvoravSukkerarter(false);
       setKostfiber(false);
       setProtein(false);
@@ -181,6 +189,14 @@ const Kategori0 = () => {
         setShowEmptyResult(true);
       } else {
         setKarbohydrat(false);
+      }
+
+      if (nutrition.naturligSukker === "" || nutrition.naturligSukker < 0) {
+        setNaturligSukker(true);
+        setShowNokkelhulletResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setNaturligSukker(false);
       }
 
       if (
@@ -243,12 +259,39 @@ const Kategori0 = () => {
     setSelectPart(event.value);
   };
 
+  //create an array of food types to select from
+  const foodTypes = [
+    {
+      value: "solid",
+      label: "Fast form",
+    },
+    {
+      value: "liquid",
+      label: "Flytende form",
+    },
+  ];
+
   return (
     <div className="row">
-      <h5>Næringsinnhold per 100 g/ml</h5>
-
       {/* This div creates a column layout for the left side of the table */}
       <div className="col-md-6">
+        {/* the selector (dropdown menu) for choosing the food type. */}
+        <div className="form-group">
+          <label htmlFor="foodType">Velg type matvare:</label>
+          <Select
+            className="form-control"
+            id="foodType"
+            options={foodTypes}
+            onChange={(e) => setFoodType(e.value)} // update the onFoodTypeChange function to directly set the food type state
+            placeholder="Velg type matvare"
+          />
+        </div>
+
+        <h5>
+          Næringsinnhold per 100{" "}
+          {foodType === "solid" ? "g" : foodType === "liquid" ? "ml" : "g/ml"}
+        </h5>
+
         {/* This div adds a light background color to the table */}
         <div className="bg-light">
           {/* This table shows the nutritional information */}
@@ -420,6 +463,40 @@ const Kategori0 = () => {
                 </td>
               </tr>
 
+              {/* This row shows the natural occuring sugars content */}
+              <tr className={naturligSukker ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {/* If the naturligSukker value is missing, display an exclamation icon with a tooltip */}
+                  {naturligSukker ? (
+                    <Tooltip
+                      title="Mangler verdi i naturligSukker parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  • Naturlig innhold av sukker (g)
+                </th>
+                {/* Input field for Naturlig innhold av sukker  value */}
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="naturligSukker"
+                    value={nutrition.naturligSukker}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
               {/* This is a table row for hvorav sukkerarter field */}
               <tr className={hvoravSukkerarter ? "alert-box" : null}>
                 <th scope="row" className="table-font">
@@ -576,6 +653,13 @@ const Kategori0 = () => {
         {/*Negative results nøkkelhullet container" */}
         {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
+            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
+            <img
+              src={keyholeLgog}
+              className="keyhole-logo img-fluid"
+              alt="keyhole logo"
+            />
+            {/* A heading with text "Nøkkelhullet" */}
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
@@ -589,6 +673,7 @@ const Kategori0 = () => {
                 ) : null}
               </div>
               <div className="col-md-2">
+                {/* FontAwesome icon with event listener to show the "Nøkkelhullet" information section */}
                 <FontAwesomeIcon
                   className="info-button"
                   icon={faCircleInfo}
@@ -724,38 +809,175 @@ const Kategori0 = () => {
             ) : null}
           </div>
         )}
+
         {/* Spacer */}
         <div style={{ padding: "15px" }}></div>
+
         {/* conditional rendering for the buttons using showButtons state */}
         {showButtons && (
-          <div className="d-flex justify-content-between">
+          <div className="button-container">
             {/* Save button */}
-            <button
-              className="btn btn-primary"
-              style={{ width: "200px", marginRight: "5px" }}
-            >
-              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
-              Lagre produkt
-            </button>
-
+            <div className="button-wrapper">
+              {/* Dropdown menu for saving food product in various formats */}
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle custom-button"
+                  type="button"
+                  id="lagreProduktDropdown"
+                  data-bs-toggle="dropdown" // Controls the presentation of the dropdown menu
+                >
+                  <FontAwesomeIcon
+                    icon={faSave}
+                    className="icon-right-spacing" // Allows space between the icon and the text
+                  />
+                  Lagre produkt
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="lagreProduktDropdown" // Associates this menu with its button
+                >
+                  {/* Each list item represents a disabled save option */}
+                  {/* aria-describedby provides extra context for accessibility tools */}
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="pdfDesc" // Disabled dropdown items with aria-describedby property for descriptive text
+                    >
+                      Lagre som PDF
+                    </button>
+                    <span
+                      id="pdfDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="bildeDesc"
+                    >
+                      Lagre som bilde
+                    </button>
+                    <span
+                      id="bildeDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="nettskyDesc"
+                    >
+                      Lagre i nettsky
+                    </button>
+                    <span
+                      id="nettskyDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="profilenDesc"
+                    >
+                      Lagre i profilen
+                    </button>
+                    <span
+                      id="profilenDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
             {/* Share button */}
-            <button
-              className="btn btn-primary"
-              style={{ width: "200px", marginRight: "5px" }}
-            >
-              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
-              Del produkt
-            </button>
-
-            {/* Add a new product button */}
-            <button
-              className="btn btn-primary"
-              onClick={() => window.location.reload()}
-              style={{ width: "200px", marginRight: "5px" }}
-            >
-              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>{" "}
-              Legg til et nytt produkt
-            </button>
+            <div className="button-wrapper">
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle custom-button"
+                  type="button"
+                  id="delProduktDropdown"
+                  data-bs-toggle="dropdown"
+                >
+                  <FontAwesomeIcon
+                    icon={faShare}
+                    className="icon-right-spacing"
+                  />
+                  Del produkt
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="delProduktDropdown"
+                >
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="epost-description"
+                    >
+                      Send på e-post
+                    </button>
+                    <span
+                      id="epost-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="samarbeidsplattformer-description"
+                    >
+                      Del på samarbeidsplattformer
+                    </button>
+                    <span
+                      id="samarbeidsplattformer-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="lenke-description"
+                    >
+                      Kopier lenke
+                    </button>
+                    <span
+                      id="lenke-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            {/* A simple button for adding a new product, which reloads the page on click */}
+            <div className="button-wrapper">
+              <button
+                className="btn btn-primary custom-button"
+                onClick={() => window.location.reload()}
+              >
+                <FontAwesomeIcon icon={faPlus} className="icon-right-spacing" />
+                Legg til et nytt produkt
+              </button>
+            </div>
           </div>
         )}
       </div>
