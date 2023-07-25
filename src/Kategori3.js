@@ -15,7 +15,7 @@ const Kategori3 = () => {
   // State variables for showing results and empty result message
 
   const [showNokkelhulletResults, setShowNokkelhulletResults] = useState(null);
-  const [showErnaeringsResults, setShowErnaeringsResults] = useState(null);
+  const [showErnaeringsResults, setShowErnaeringsResults] = useState("");
   const [showHelsepåstander, setShowHelsepåstander] = useState(null);
   const [showEmptyResult, setShowEmptyResult] = useState(""); // initialize state variable for showing empty result message.
 
@@ -23,22 +23,49 @@ const Kategori3 = () => {
   const [foodType, setFoodType] = useState("");
   const [lowSugars, setLowSugars] = useState(null);
 
+  //state variable for SugarsFree claim
+  const [sugarsFree, setSugarsFree] = useState(null);
+
   //state variable to track whether the product meets the WITH NO ADDED SUGARS claim or not
-  const [withNoAddedSugars, setWithNoAddedSugars] = useState(false);
+  const [withNoAddedSugars, setWithNoAddedSugars] = useState(null);
+
+  //state variable to track whether the product meets the "CONTAINS NATURALLY OCCURRING SUGARS" claim or not
+  const [
+    containsNaturallyOccurringSugars,
+    setContainsNaturallyOccurringSugars,
+  ] = useState(null);
 
   // State variable for tracking if the button is clicked
   const [buttonClicked, setButtonClicked] = useState(false);
 
-  // useEffect hook for checking the condition for the "WITH NO ADDED SUGARS" claim when button is clicked
+  // useEffect hook for checking the conditions for the nutrition claims when button is clicked
   useEffect(() => {
     if (buttonClicked) {
-      if (withNoAddedSugars) {
-        setShowErnaeringsResults(true);
+      if (
+        lowSugars &&
+        withNoAddedSugars &&
+        containsNaturallyOccurringSugars &&
+        sugarsFree
+      ) {
+        setShowErnaeringsResults("all");
+      } else if (
+        !lowSugars &&
+        !withNoAddedSugars &&
+        !containsNaturallyOccurringSugars &&
+        !sugarsFree
+      ) {
+        setShowErnaeringsResults("none");
       } else {
-        setShowErnaeringsResults(false);
+        setShowErnaeringsResults("some");
       }
     }
-  }, [withNoAddedSugars, buttonClicked]);
+  }, [
+    lowSugars,
+    withNoAddedSugars,
+    containsNaturallyOccurringSugars,
+    sugarsFree,
+    buttonClicked,
+  ]);
 
   //state for controlling the buttons' visibility
   const [showButtons, setShowButtons] = useState(false);
@@ -78,6 +105,7 @@ const Kategori3 = () => {
   const [mettede, setMettede] = useState(false);
   const [mettedeNull, setMettedeNull] = useState(false);
   const [karbohydrat, setKarbohydrat] = useState(false);
+  const [naturligSukker, setNaturligSukker] = useState(false);
   const [hvoravSukkerarter, setHvoravSukkerarter] = useState(false);
   const [kostfiber, setKostfiber] = useState(false);
   const [protein, setProtein] = useState(false);
@@ -90,6 +118,7 @@ const Kategori3 = () => {
     fett: "",
     mettede: "",
     karbohydrat: "",
+    naturligSukker: "",
     hvoravSukkerarter: "",
     kostfiber: "",
     protein: "",
@@ -121,6 +150,7 @@ const Kategori3 = () => {
       nutrition.mettede !== "" &&
       nutrition.mettede <= 10 &&
       nutrition.karbohydrat !== "" &&
+      nutrition.naturligSukker !== "" &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
@@ -145,6 +175,7 @@ const Kategori3 = () => {
       setMettede(false);
       setMettedeNull(false);
       setKarbohydrat(false);
+      setNaturligSukker(false);
       setHvoravSukkerarter(false);
       setKostfiber(false);
       setProtein(false);
@@ -208,6 +239,14 @@ const Kategori3 = () => {
         setKarbohydrat(false);
       }
 
+      if (nutrition.naturligSukker === "" || nutrition.naturligSukker < 0) {
+        setNaturligSukker(true);
+        setShowNokkelhulletResults(false);
+        setShowEmptyResult(true);
+      } else {
+        setNaturligSukker(false);
+      }
+
       if (
         nutrition.hvoravSukkerarter === "" ||
         nutrition.hvoravSukkerarter < 0
@@ -256,19 +295,38 @@ const Kategori3 = () => {
       setLowSugars(false);
     }
 
+    // Check for the "SUGARS-FREE" claim
+    if (foodType === "solid" && parseFloat(nutrition.karbohydrat) <= 0.5) {
+      setSugarsFree(true);
+    } else if (
+      foodType === "liquid" &&
+      parseFloat(nutrition.karbohydrat) <= 0.5
+    ) {
+      setSugarsFree(true);
+    } else {
+      setSugarsFree(false);
+    }
+
     // Check the condition for the "WITH NO ADDED SUGARS" nutrition claim
     if (nutrition.hvoravSukkerarter === "0" && nutrition.karbohydrat > 0) {
       setWithNoAddedSugars(true);
     } else {
       setWithNoAddedSugars(false);
     }
+
+    // Check the condition for the "CONTAINS NATURALLY OCCURRING SUGARS" nutrition claim
+    if (nutrition.hvoravSukkerarter === "0" && nutrition.karbohydrat > 0) {
+      setContainsNaturallyOccurringSugars(true);
+    } else {
+      setContainsNaturallyOccurringSugars(false);
+    }
   };
 
   // create an array of energy units to select from
   const selectUnit = [
     {
-      value: "energikj",
-      label: "(kj)",
+      value: "energikj", // This is the value that will be used in the code
+      label: "(kj)", // This is the value that will be displayed to the user in the dropdown
     },
     {
       value: "energikcal",
@@ -281,9 +339,9 @@ const Kategori3 = () => {
 
   // A function to handle changes to the select dropdown energy unit
   const handlerPart = (event) => {
-    const inputVal = document.getElementsByName(event.value);
-    console.log("handlerPart ===", event, nutrition, inputVal);
-    setSelectPart(event.value);
+    const inputVal = document.getElementsByName(event.value); // Get the input elements with the name of the selected option
+    console.log("handlerPart ===", event, nutrition, inputVal); // Log the selected option, current nutrition state, and input elements to the console
+    setSelectPart(event.value); // Update the selectsPart state with the value of the selected option
   };
 
   //create an array of food types to select from
@@ -318,6 +376,7 @@ const Kategori3 = () => {
           Næringsinnhold per 100{" "}
           {foodType === "solid" ? "g" : foodType === "liquid" ? "ml" : "g/ml"}
         </h5>
+
         {/* This div adds a light background color to the table */}
         <div className="bg-light">
           {/* This table shows the nutritional information */}
@@ -495,6 +554,40 @@ const Kategori3 = () => {
                     step="any"
                     name="karbohydrat"
                     value={nutrition.karbohydrat}
+                    onChange={changeHandle}
+                    className="form-control"
+                  ></input>
+                </td>
+              </tr>
+
+              {/* This row shows the natural occuring sugars content */}
+              <tr className={naturligSukker ? "alert-box" : null}>
+                <th scope="row" className="table-font">
+                  {/* If the naturligSukker value is missing, display an exclamation icon with a tooltip */}
+                  {naturligSukker ? (
+                    <Tooltip
+                      title="Mangler verdi i naturligSukker parameter"
+                      placement="right"
+                      arrow
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon
+                          className="alert-icon"
+                          icon={faCircleExclamation}
+                        />
+                      </div>
+                    </Tooltip>
+                  ) : null}{" "}
+                  • Naturlig innhold av sukker (g)
+                </th>
+                {/* Input field for Naturlig innhold av sukker  value */}
+                <td>
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    name="naturligSukker"
+                    value={nutrition.naturligSukker}
                     onChange={changeHandle}
                     className="form-control"
                   ></input>
@@ -703,6 +796,13 @@ const Kategori3 = () => {
         {/*Negative results nøkkelhullet container" */}
         {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
+            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
+            <img
+              src={keyholeLgog}
+              className="keyhole-logo img-fluid"
+              alt="keyhole logo"
+            />
+            {/* A heading with text "Nøkkelhullet" */}
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
@@ -750,18 +850,14 @@ const Kategori3 = () => {
             ) : null}
           </div>
         )}
+
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
-        {/* container for ernæringspåstander if there are all true results */}
+
+        {/* container for ernæringspåstander results */}
         {buttonClicked && (
           <div
-            className={
-              lowSugars && withNoAddedSugars
-                ? "container ernæringspåstander-food-result-container-all"
-                : !lowSugars && !withNoAddedSugars
-                ? "container ernæringspåstander-food-result-container-none"
-                : "container ernæringspåstander-food-result-container-some"
-            }
+            className={`container ernæringspåstander-food-result-container-${showErnaeringsResults}`}
           >
             <h5>Ernæringspåstander</h5>
             <div className="row">
@@ -769,53 +865,113 @@ const Kategori3 = () => {
                 {/* Low sugars */}
                 {lowSugars ? (
                   <div>
-                    <p>** Lavt sukkerinnhold:</p>
+                    <p>
+                      ** Lavt sukkerinnhold: Produktet oppfyller kravet for
+                      "Lavt sukkerinnhold" påstanden.
+                    </p>
                     <p>
                       Dette produktet inneholder høyst 5 g sukkerarter per 100 g
                       for næringsmidler i fast form, eller høyst 2,5 g
-                      sukkerarter per 100 ml for næringsmidler i flytende form
-                      og oppfyller kravet for "Lavt sukkerinnhold".
+                      sukkerarter per 100 ml for næringsmidler i flytende form.
                     </p>
                   </div>
                 ) : (
                   <div>
                     <p>
-                      ** Produktet innfrir ikke "Lavt sukkerinnhold" påstanden.
+                      ** Lavt sukkerinnhold: Produktet oppfyller ikke kravet for
+                      "Lavt sukkerinnhold" påstanden.
                     </p>
                     <ul>
                       <li>
-                        For faste næringsmidler, sukkerinnholdet må være høyst 5
+                        For faste næringsmidler, må sukkerinnholdet være høyst 5
                         g per 100 g.
                       </li>
                       <li>
-                        For flytende næringsmidler, sukkerinnholdet må være
+                        For flytende næringsmidler, må sukkerinnholdet være
                         høyst 2,5 g per 100 ml.
                       </li>
                     </ul>
                   </div>
                 )}
 
-                {/* No added sugars */}
-                {withNoAddedSugars ? (
+                {/* "SUGARS-FREE" claim */}
+                {sugarsFree ? (
                   <div>
-                    <p>** Uten tilsatt sukker:</p>
                     <p>
-                      Dette produktet er ikke tilsatt monosakkarider,
-                      disakkarider eller andre næringsmidler på grunn av deres
-                      søtende egenskaper og oppfyller kravet for "Uten tilsatt
-                      sukker".
+                      ** Sukkerfri: Produktet oppfyller kravet for "Sukkerfri"
+                      påstanden.
+                    </p>
+                    <p>
+                      Dette produktet inneholder ikke mer enn 0,5 g sukkerarter
+                      per 100 g/ml.
                     </p>
                   </div>
                 ) : (
                   <div>
                     <p>
-                      ** Produktet innfrir ikke "Uten tilsatt sukker" påstanden.
+                      ** Sukkerfri: Produktet oppfyller ikke kravet for
+                      "Sukkerfri" påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        Produktet må inneholde høyst 0,5 g sukkerarter per 100
+                        g/ml.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {/* with No added sugars */}
+                {withNoAddedSugars ? (
+                  <div>
+                    <p>
+                      ** Uten tilsatt sukker: Produktet oppfyller kravet for
+                      "Uten tilsatt sukker" påstanden.
+                    </p>
+                    <p>
+                      Dette produktet er ikke tilsatt monosakkarider,
+                      disakkarider eller andre næringsmidler på grunn av deres
+                      søtende egenskaper.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      ** Uten tilsatt sukker: Produktet oppfyller ikke kravet
+                      for "Uten tilsatt sukker" påstanden.
                     </p>
                     <ul>
                       <li>
                         Produktet må ikke være tilsatt monosakkarider,
                         disakkarider eller andre næringsmidler på grunn av deres
                         søtende egenskaper.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {/* Contains naturally occurring sugars */}
+                {containsNaturallyOccurringSugars ? (
+                  <div>
+                    <p>
+                      ** Med et naturlig innhold av sukker: Produktet oppfyller
+                      kravet for "Med et naturlig innhold av sukker" påstanden.
+                    </p>
+                    <p>
+                      Dette produktet inneholder naturlig forekommende sukker.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      ** Med et naturlig innhold av sukker: Produktet oppfyller
+                      ikke kravet for "Med et naturlig innhold av sukker"
+                      påstanden.
+                    </p>
+                    <ul>
+                      <li>
+                        Produktet må inneholde naturlig forekommende sukker og
+                        ikke ha tilsatt sukker.
                       </li>
                     </ul>
                   </div>
@@ -856,6 +1012,7 @@ const Kategori3 = () => {
             ) : null}
           </div>
         )}
+
         {/* Spacer */}
         <div style={{ padding: "5px" }}></div>
         {/* container for Helsepåstander results  */}
@@ -904,38 +1061,175 @@ const Kategori3 = () => {
             ) : null}
           </div>
         )}
+
         {/* Spacer */}
         <div style={{ padding: "15px" }}></div>
+
         {/* conditional rendering for the buttons using showButtons state */}
         {showButtons && (
-          <div className="d-flex justify-content-between">
+          <div className="button-container">
             {/* Save button */}
-            <button
-              className="btn btn-primary"
-              style={{ width: "200px", marginRight: "5px" }}
-            >
-              <i className="fas fa-save" style={{ marginRight: "5px" }}></i>{" "}
-              Lagre produkt
-            </button>
-
+            <div className="button-wrapper">
+              {/* Dropdown menu for saving food product in various formats */}
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle custom-button"
+                  type="button"
+                  id="lagreProduktDropdown"
+                  data-bs-toggle="dropdown" // Controls the presentation of the dropdown menu
+                >
+                  <FontAwesomeIcon
+                    icon={faSave}
+                    className="icon-right-spacing" // Allows space between the icon and the text
+                  />
+                  Lagre produkt
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="lagreProduktDropdown" // Associates this menu with its button
+                >
+                  {/* Each list item represents a disabled save option */}
+                  {/* aria-describedby provides extra context for accessibility tools */}
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="pdfDesc" // Disabled dropdown items with aria-describedby property for descriptive text
+                    >
+                      Lagre som PDF
+                    </button>
+                    <span
+                      id="pdfDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="bildeDesc"
+                    >
+                      Lagre som bilde
+                    </button>
+                    <span
+                      id="bildeDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="nettskyDesc"
+                    >
+                      Lagre i nettsky
+                    </button>
+                    <span
+                      id="nettskyDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="profilenDesc"
+                    >
+                      Lagre i profilen
+                    </button>
+                    <span
+                      id="profilenDesc"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
             {/* Share button */}
-            <button
-              className="btn btn-primary"
-              style={{ width: "200px", marginRight: "5px" }}
-            >
-              <i className="fas fa-share" style={{ marginRight: "5px" }}></i>{" "}
-              Del produkt
-            </button>
-
-            {/* Add a new product button */}
-            <button
-              className="btn btn-primary"
-              onClick={() => window.location.reload()}
-              style={{ width: "200px", marginRight: "5px" }}
-            >
-              <i className="fas fa-plus" style={{ marginRight: "5px" }}></i>{" "}
-              Legg til et nytt produkt
-            </button>
+            <div className="button-wrapper">
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle custom-button"
+                  type="button"
+                  id="delProduktDropdown"
+                  data-bs-toggle="dropdown"
+                >
+                  <FontAwesomeIcon
+                    icon={faShare}
+                    className="icon-right-spacing"
+                  />
+                  Del produkt
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="delProduktDropdown"
+                >
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="epost-description"
+                    >
+                      Send på e-post
+                    </button>
+                    <span
+                      id="epost-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="samarbeidsplattformer-description"
+                    >
+                      Del på samarbeidsplattformer
+                    </button>
+                    <span
+                      id="samarbeidsplattformer-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      disabled
+                      aria-describedby="lenke-description"
+                    >
+                      Kopier lenke
+                    </button>
+                    <span
+                      id="lenke-description"
+                      style={{ fontSize: "smaller", color: "gray" }}
+                    >
+                      (Denne funksjonen er under utvikling)
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            {/* A simple button for adding a new product, which reloads the page on click */}
+            <div className="button-wrapper">
+              <button
+                className="btn btn-primary custom-button"
+                onClick={() => window.location.reload()}
+              >
+                <FontAwesomeIcon icon={faPlus} className="icon-right-spacing" />
+                Legg til et nytt produkt
+              </button>
+            </div>
           </div>
         )}
       </div>
