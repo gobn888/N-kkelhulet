@@ -889,6 +889,13 @@ const Kategori1 = () => {
         {/*Negative results nøkkelhullet container" */}
         {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
+            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
+            <img
+              src={keyholeLgog}
+              className="keyhole-logo img-fluid"
+              alt="keyhole logo"
+            />
+            {/* A heading with text "Nøkkelhullet" */}
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">

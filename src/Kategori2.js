@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react"; // import the useState and useeffect hook.
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"; // import an icon.
-import { faBan } from "@fortawesome/free-solid-svg-icons";
+
 import { faSave, faShare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // import FontAwesomeIcon component.
 import Tooltip from "@mui/material/Tooltip"; // import Tooltip component.
@@ -110,7 +110,6 @@ const Kategori2 = () => {
   const [kostfiber, setKostfiber] = useState(false);
   const [protein, setProtein] = useState(false);
   const [salt, setSalt] = useState(false);
-  const [saltNull, setSaltNull] = useState(false);
 
   // initialize State variable for storing nutrition information entered by user/input values
   const [nutrition, setNutrition] = useState({
@@ -780,6 +779,13 @@ const Kategori2 = () => {
         {/*Negative results nøkkelhullet container" */}
         {showNokkelhulletResults === false && (
           <div className="container nøkkelhullet-food-negResult-container">
+            {/* An image with class "keyhole-logo" and alt text "keyhole logo" */}
+            <img
+              src={keyholeLgog}
+              className="keyhole-logo img-fluid"
+              alt="keyhole logo"
+            />
+            {/* A heading with text "Nøkkelhullet" */}
             <h5>Nøkkelhullet</h5>
             <div className="row">
               <div className="col-md-10">
@@ -822,6 +828,9 @@ const Kategori2 = () => {
             ) : null}
           </div>
         )}
+
+        {/* Spacer */}
+        <div style={{ padding: "5px" }}></div>
 
         {/* container for ernæringspåstander results */}
         {buttonClicked && (
