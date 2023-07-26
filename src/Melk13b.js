@@ -309,6 +309,18 @@ const Melk13b = () => {
       }
     }
 
+    // Check for the "LOW SUGARS" claim
+    if (foodType === "solid" && parseFloat(nutrition.karbohydrat) <= 5) {
+      setLowSugars(true);
+    } else if (
+      foodType === "liquid" &&
+      parseFloat(nutrition.karbohydrat) <= 2.5
+    ) {
+      setLowSugars(true);
+    } else {
+      setLowSugars(false);
+    }
+
     // Check for the "SUGARS-FREE" claim
     if (foodType === "solid" && parseFloat(nutrition.karbohydrat) <= 0.5) {
       setSugarsFree(true);
