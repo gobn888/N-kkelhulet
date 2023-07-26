@@ -13,7 +13,6 @@ import Select from "react-select"; // import Select component
 // This component is called Kategori1
 const Kategori1 = () => {
   // State variables for showing results and empty result message
-
   const [showNokkelhulletResults, setShowNokkelhulletResults] = useState(null);
   const [showErnaeringsResults, setShowErnaeringsResults] = useState("");
   const [showHelsepåstander, setShowHelsepåstander] = useState(null);
