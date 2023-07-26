@@ -153,6 +153,7 @@ const Kategori22b = () => {
       nutrition.karbohydrat !== "" &&
       nutrition.karbohydrat <= 5 &&
       nutrition.naturligSukker !== "" &&
+      nutrition.naturligSukker !== "" &&
       nutrition.hvoravSukkerarter !== "" &&
       nutrition.kostfiber !== "" &&
       nutrition.protein !== "" &&
